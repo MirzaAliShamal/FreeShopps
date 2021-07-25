@@ -38,7 +38,15 @@
                     <ul>
                         <li class="d-sm-inline-block d-none"><a href="">About</a></li>
                         <li class="d-sm-inline-block d-none"><a href="">Terms of Service</a></li>
-                        <li><a href="">Login</a></li>
+                        @auth
+                            @if (auth()->user()->role == "1")
+                                <li class="d-sm-inline-block d-none"><a href="">My Account</a></li>
+                            @else
+                                <li class="d-sm-inline-block d-none"><a href="{{ route('admin.dashboard') }}">My Account</a></li>
+                            @endif
+                        @else
+                            <li><a href="javascript:;" data-bs-toggle="modal" data-bs-target="#accountModal">Login</a></li>
+                        @endauth
                         <li><a href="" class="btn btn-primary">Post Ad</a></li>
                     </ul>
                 </div>
@@ -54,32 +62,20 @@
                 <div id="navigation">
                     <!-- Navigation Menu-->
                     <ul class="navigation-menu">
-                        <li><a href="{{ route('home') }}" class="sub-menu-item">Home</a></li>
+                        @foreach (getNavCat() as $item)
+                            <li><a href="{{ $item->slug }}" class="sub-menu-item">{{ $item->name }}</a></li>
+                        @endforeach
+                        @if (count(getOtherNavCat()) > 0)
 
+                        @endif
                         <li class="has-submenu parent-parent-menu-item">
-                            <a href="javascript:void(0)">Community</a><span class="menu-arrow"></span>
+                            <a href="javascript:void(0)">Others</a><span class="menu-arrow"></span>
                             <ul class="submenu">
-                                <li><a href=""> Community Guidelines</a></li>
-                                <li><a href=""> Privacy Policy</a></li>
-                                <li><a href=""> What we're up to</a></li>
-                                <li><a href=""> Something New!</a></li>
-                                <li><a href=""> How it works</a></li>
+                                @foreach (getOtherNavCat() as $item)
+                                    <li><a href="{{ $item->slug }}" class="sub-menu-item">{{ $item->name }}</a></li>
+                                @endforeach
                             </ul>
                         </li>
-
-                        <li class="has-submenu parent-parent-menu-item">
-                            <a href="javascript:void(0)">Contact</a><span class="menu-arrow"></span>
-                            <ul class="submenu">
-                                <li><a href=""> About Us</a></li>
-                                <li><a href=""> Terms of Service / User Agreement</a></li>
-                                <li><a href=""> Our Goal</a></li>
-                                <li><a href=""> We Shopps Free!</a></li>
-                            </ul>
-                        </li>
-
-                        <li><a href="" class="sub-menu-item">Reviews</a></li>
-                        <li><a href="" class="sub-menu-item">Blog</a></li>
-                        <li><a href="" class="sub-menu-item">My Account</a></li>
                     </ul><!--end navigation menu-->
                 </div><!--end navigation-->
             </div>

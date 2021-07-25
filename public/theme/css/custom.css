@@ -44,6 +44,10 @@
     height: 15px;
 }
 
+#topnav .navigation-menu > li .submenu li a {
+    text-transform: capitalize;
+}
+
 .top-nav > ul {
     padding: 0px;
     margin: 0px;
@@ -74,6 +78,17 @@
     position: relative;
 }
 
+.facebook,
+.facebook:hover {
+    background-color: #4267B2 !important;
+    border-color: #4267B2 !important;
+}
+
+.google,
+.google:hover {
+    background-color: #4285F4 !important;
+    border-color: #4285F4 !important;
+}
 
 @media (min-width: 992px) {
     #topnav .navigation-menu > .has-submenu:hover .menu-arrow {

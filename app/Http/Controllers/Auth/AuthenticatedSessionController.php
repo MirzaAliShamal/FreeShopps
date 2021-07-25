@@ -20,6 +20,11 @@ class AuthenticatedSessionController extends Controller
         return view('auth.login');
     }
 
+    public function adminLogin()
+    {
+        return view('auth.admin_login');
+    }
+
     /**
      * Handle an incoming authentication request.
      *
@@ -32,7 +37,22 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $user = auth()->user();
+
+        if ($request->ajax()) {
+            if ($user->role == "1") {
+                return response()->json([
+                    'statusCode' => 200,
+                    'reload' => true,
+                    'message' => 'Login Successfull',
+                ]);
+            }
+        } else {
+            if ($user->role == "2") {
+                return redirect()->intended(RouteServiceProvider::ADMIN);
+            }
+        }
+
     }
 
     /**

@@ -18,10 +18,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'avatar',
         'name',
         'email',
         'password',
-        'role',
+        'bio',
+        'phone',
+        'website',
+        'location',
+        'location_lat',
+        'location_long',
     ];
 
     /**
@@ -46,5 +52,25 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function store() {
+        return $this->hasOne('App\Models\Store');
+    }
+
+    public function listings() {
+        return $this->hasMany('App\Models\Listing');
+    }
+
+    public function favourites() {
+        return $this->hasMany('App\Models\Favourite');
+    }
+
+    public function cart() {
+        return $this->hasMany('App\Models\Cart');
+    }
+
+    public function transactions() {
+        return $this->hasMany('App\Models\Transaction');
     }
 }

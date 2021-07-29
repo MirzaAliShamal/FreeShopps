@@ -1,3 +1,27 @@
+.font-8 {
+    font-size: 8px !important;
+}
+
+.font-10 {
+    font-size: 10px !important;
+}
+
+.font-12 {
+    font-size: 12px !important;
+}
+
+.font-14 {
+    font-size: 14px !important;
+}
+
+.font-16 {
+    font-size: 16px !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
 #topnav {
     background: #ffffff;
     -webkit-box-shadow: 0 0 3px rgb(60 72 88 / 15%);
@@ -90,6 +114,38 @@
     border-color: #4285F4 !important;
 }
 
+.bg-profile {
+    padding: 50px 0px;
+}
+
+.bg-profile .public-profile {
+    top: 150px;
+}
+
+.fileuploader-input .fileuploader-input-caption {
+    color: inherit;
+}
+
+.fileuploader-input .fileuploader-input-button,
+.fileuploader-popup .fileuploader-popup-content .fileuploader-popup-button.button-success {
+    background: none;
+    background-color: #f85c70 !important;
+    border-color: #f85c70 !important;
+    box-shadow: 0 3px 5px 0 rgb(248 92 112 / 30%);
+}
+
+#map {
+    height: 350px;
+}
+
+.bg-half {
+    padding: 150px 0 40px;
+}
+
+.page-next-level .page-next {
+    top: 50px;
+}
+
 @media (min-width: 992px) {
     #topnav .navigation-menu > .has-submenu:hover .menu-arrow {
         top: 15px !important;
@@ -105,5 +161,9 @@
 @media (max-width: 576px) {
     #topnav .menu-extras {
         float: none;
+    }
+
+    .bg-half {
+        padding: 175px 0 40px;
     }
 }

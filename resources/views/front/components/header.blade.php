@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <!-- Logo container-->
         <div class="row">
-            <div class="col-lg-12 col-md-1 col-sm-2 col-2 order-lg-1 order-1">
+            <div class="col-xl-12 col-lg-12 col-md-1 col-sm-2 col-2 order-lg-1 order-1">
                 <div class="menu-extras">
                     <div class="menu-item">
                         <!-- Mobile menu toggle-->
@@ -17,37 +17,79 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-1 col-md-1 col-sm-2 col-3 order-lg-2 order-2 px-1">
-                <a class="logo" href="index.html">
+            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-3 order-lg-2 order-2 px-1">
+                <a class="logo" href="{{ route('home') }}">
                     <img src="{{ asset('logo.png') }}" height="60" alt="">
                 </a>
             </div>
-            <div class="col-lg-5 col-md-12 order-lg-3 order-4 m-auto">
-                <form action="">
+            <div class="col-xl-4 col-lg-4 col-md-12 order-lg-3 order-4 m-auto">
+                <form action="{{ route('all') }}" class="navbar-search">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Entery Keyword..." name="q" autocomplete="off">
+                        <input type="text" class="form-control" placeholder="Entery Keyword..." name="q" value="{{ $req->q ?? '' }}" autocomplete="off">
                         <button class="btn btn-sm btn-primary"><i data-feather="search" class="icons"></i></button>
                     </div>
+                    <input type="hidden" name="category" value="{{ $req->category ?? '' }}">
+                    <input type="hidden" name="sort" value="{{ $req->sort ?? 'latest' }}">
                 </form>
             </div>
-            <div class="col-lg-2 col-md-12 order-lg-4 order-5 m-auto">
+            <div class="col-xl-2 col-lg-2 col-md-12 order-lg-4 order-5 m-auto">
                 <a href="" class="location"><i data-feather="map-pin" class="icons"></i> Nearby</a>
             </div>
-            <div class="col-lg-4 col-md-10 col-sm-8 col-7 order-lg-5 order-3 m-auto">
+            <div class="col-xl-5 col-lg-5 col-md-10 col-sm-8 col-7 order-lg-5 order-3 m-auto">
                 <div class="top-nav text-end">
                     <ul>
                         <li class="d-sm-inline-block d-none"><a href="">About</a></li>
                         <li class="d-sm-inline-block d-none"><a href="">Terms of Service</a></li>
                         @auth
                             @if (auth()->user()->role == "1")
-                                <li class="d-sm-inline-block d-none"><a href="">My Account</a></li>
+                                <li class="d-sm-inline-block d-none"><a href="{{ route('user.dashboard') }}">My Account</a></li>
                             @else
                                 <li class="d-sm-inline-block d-none"><a href="{{ route('admin.dashboard') }}">My Account</a></li>
                             @endif
+                            <li>
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-icon btn-soft-primary cart-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="uil uil-shopping-cart align-middle icons"></i></button>
+                                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 p-4" style="width: 300px; margin: 0px;">
+                                        <div id="status" class="loader" style="display: none">
+                                            <div class="spinner">
+                                                <div class="double-bounce1"></div>
+                                                <div class="double-bounce2"></div>
+                                            </div>
+                                        </div>
+                                        <div class="cart-block">
+                                            <div class="cart">
+                                                @if (count(getCart()) > 0)
+
+                                                    @foreach (getCart() as $item)
+                                                        <div class="d-flex align-items-center mb-4">
+                                                            <img src="{{ asset($item->listing->featured_image) }}" class="shadow rounded" style="max-height: 64px;" alt="">
+                                                            <div class="flex-1 text-start ms-3">
+                                                                <h6 class="text-dark mb-0">{{ $item->listing->title }}</h6>
+                                                                <small class="text-muted mb-0">{{ $item->listing->category->name }}</small>
+                                                            </div>
+                                                            {{-- <span class="d-inline-block text-danger cursor-pointer removeCart" data-id="{{ $item->id }}"><i data-feather="trash" class="icons"></i></span> --}}
+                                                        </div>
+                                                    @endforeach
+                                                @else
+                                                    <h4 class="text-center">Cart is Empty</h4>
+                                                @endif
+                                            </div>
+
+                                            <div class="mt-3 text-center pt-4 border-top">
+                                                @if (count(getCart()) > 0)
+                                                    <a href="{{ route('cart') }}" class="btn btn-primary d-block">View Cart</a>
+                                                @else
+                                                    <a href="javascript:void(0)" class="btn btn-primary d-block">View Cart</a>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
                         @else
                             <li><a href="javascript:;" data-bs-toggle="modal" data-bs-target="#accountModal">Login</a></li>
                         @endauth
-                        <li><a href="" class="btn btn-primary">Post Ad</a></li>
+                        <li><a href="{{ route('post.ad') }}" class="btn btn-primary">Post Ad</a></li>
                     </ul>
                 </div>
             </div>
@@ -63,7 +105,7 @@
                     <!-- Navigation Menu-->
                     <ul class="navigation-menu">
                         @foreach (getNavCat() as $item)
-                            <li><a href="{{ $item->slug }}" class="sub-menu-item">{{ $item->name }}</a></li>
+                            <li><a data-slug="{{ $item->slug }}" href="{{ route('all') }}?category={{ $item->slug }}" class="sub-menu-item cat-item">{{ $item->name }}</a></li>
                         @endforeach
                         @if (count(getOtherNavCat()) > 0)
 
@@ -72,7 +114,7 @@
                             <a href="javascript:void(0)">Others</a><span class="menu-arrow"></span>
                             <ul class="submenu">
                                 @foreach (getOtherNavCat() as $item)
-                                    <li><a href="{{ $item->slug }}" class="sub-menu-item">{{ $item->name }}</a></li>
+                                    <li><a data-slug="{{ $item->slug }}" href="{{ route('all') }}?category={{ $item->slug }}" class="sub-menu-item cat-item">{{ $item->name }}</a></li>
                                 @endforeach
                             </ul>
                         </li>

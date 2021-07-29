@@ -15,24 +15,27 @@
     <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" rel="stylesheet">
     <!-- Slider -->
     <link href="{{ asset('theme/css/tiny-slider.css') }}" rel="stylesheet">
+
+
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <link href="{{ asset('theme/css/font/font-fileuploader.css') }}" rel="stylesheet">
+    <link href="{{ asset('theme/css/jquery.fileuploader.min.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+
     <!-- Main Css -->
     <link href="{{ asset('theme/css/style.css') }}" rel="stylesheet" type="text/css" id="theme-opt" />
     <link href="{{ asset('theme/css/colors/default.css') }}" rel="stylesheet" id="color-opt">
     <link href="{{ asset('theme/css/custom.css') }}" rel="stylesheet" id="color-opt">
 
+    <style>
+        #toast-container .toast {
+            opacity: 1;
+        }
+    </style>
+    @yield('css')
 </head>
 
 <body>
-    <!-- Loader -->
-    {{-- <div id="preloader">
-        <div id="status">
-            <div class="spinner">
-                <div class="double-bounce1"></div>
-                <div class="double-bounce2"></div>
-            </div>
-        </div>
-    </div> --}}
-    <!-- Loader -->
 
     <!-- Navbar STart -->
     @include('front.components.header')
@@ -225,7 +228,7 @@
         </div>
     </div>
     <!-- Account Modal -->
-{{-- {{ \Auth::guard('web')->logout() }} --}}
+
 
     <!-- javascript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -238,6 +241,10 @@
     <!-- Main Js -->
     <script src="{{ asset('theme/js/plugins.init.js') }}"></script><!--Note: All init js like tiny slider, counter, countdown, maintenance, lightbox, gallery, swiper slider, aos animation etc.-->
     <script src="{{ asset('theme/js/app.js') }}"></script><!--Note: All important javascript like page loader, menu, sticky menu, menu-toggler, one page menu etc. -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src="{{ asset('theme/js/jquery.fileuploader.min.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6GhjR-WmiKCgr71McBioeymDd6_Ti_0s&callback=initMap&libraries=places&v=weekly"async></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <script>
         function accountsModalHandle(target) {
@@ -258,6 +265,7 @@
             });
         }
 
+        // Login Form Event
         $(".login-form").submit(function (e) {
             e.preventDefault();
             let elm = $(this);
@@ -304,6 +312,89 @@
                 }
             });
         });
+
+        // Add To Fav Event
+        $(document).on("click", ".addFav", function() {
+            let elm = $(this);
+            let parent = $(this).closest("li");
+
+            elm.addClass('active');
+            elm.removeClass('addFav');
+
+            $.ajax({
+                type: "GET",
+                url: "{{ route('add.fav') }}/"+elm.data('id'),
+                success: function (response) {
+                    if (response.statusCode == 200) {
+                        toastr.success(response.message);
+                    } else {
+                        toastr.error(response.message);
+                    }
+                }
+            });
+        });
+
+        // Add To Cart Event
+        $(document).on("click", ".addCart", function() {
+            let elm = $(this);
+            let parent = $(this).closest("li");
+
+            $(".cart-dropdown").click();
+            $('.cart-block').hide();
+            $(".dropdown .loader").show();
+
+            elm.addClass('active');
+            elm.removeClass('addCart');
+
+            $.ajax({
+                type: "GET",
+                url: "{{ route('add.cart') }}/"+elm.data('id'),
+                success: function (response) {
+                    if (response.statusCode == 200) {
+                        $(".cart").html(response.html);
+                        $(".dropdown .loader").hide();
+                        $('.cart-block').show();
+                    } else {
+                        toastr.error(response.message);
+                    }
+                }
+            });
+        });
+
+        $(document).on("click", ".removeCart", function(e) {
+            let elm = $(this);
+            alert('df');
+            elm.closest("div").remove();
+
+            $.ajax({
+                type: "GET",
+                url: "{{ route('remove.cart') }}/"+elm.data('id'),
+                success: function (response) {
+                    if (response.statusCode == 200) {
+
+                    } else {
+                        toastr.error(response.message);
+                    }
+                }
+            });
+            e.stopPropagation();
+        });
+
+        $(document).on("click", ".cat-item", function(e) {
+            e.preventDefault();
+            let val = $(this).data('slug');
+            $("[name='category']").val(val);
+
+            $(".navbar-search").submit();
+        });
+
+        $(document).on("change", "[name='sorting']", function(e) {
+            let val = $(this).val();
+            $("[name='sort']").val(val);
+
+            $(".navbar-search").submit();
+        });
     </script>
+    @yield('js')
 </body>
 </html>

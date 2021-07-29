@@ -10,147 +10,34 @@
             <div class="col-lg-12 col-md-12 col-12 mt-5 pt-2 mt-sm-0 pt-sm-0">
 
                 <div class="row">
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-4 pt-2">
-                        <div class="card shop-list border-0 position-relative">
-                            <ul class="label list-unstyled mb-0">
-                                <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-success">New</a></li>
-                            </ul>
-                            <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                <a href=""><img src="{{ asset('theme') }}/images/250x250.png" class="img-fluid" alt=""></a>
-                                <ul class="list-unstyled shop-icons">
-                                    <li><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                                </ul>
+                    @foreach ($listings as $item)
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-4 pt-2">
+                            <div class="card shop-list border-0 position-relative">
+                                @if ($item->availablity == "2")
+                                    <ul class="label list-unstyled mb-0">
+                                        <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-primary">Sold</a></li>
+                                    </ul>
+                                @endif
+                                <div class="shop-image position-relative overflow-hidden rounded shadow">
+                                    <a href="{{ route('listing', $item->slug) }}"><img src="{{ asset($item->featured_image) }}" class="img-fluid" alt=""></a>
+                                    <ul class="list-unstyled shop-icons">
+                                        @auth
+                                            <li><a href="javascript:void(0)" data-id="{{ $item->id }}" class="btn btn-icon btn-pills btn-soft-danger {{ checkFav($item->id) ? 'active' : 'addFav' }}"><i data-feather="heart" class="icons"></i></a></li>
+                                            <li class="mt-2"><a href="javascript:void(0)" data-id="{{ $item->id }}" class="btn btn-icon btn-pills btn-soft-warning {{ checkCart($item->id) ? 'active' : 'addCart' }}"><i data-feather="shopping-cart" class="icons"></i></a></li>
+                                        @else
+                                            <li><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#accountModal" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
+                                            <li class="mt-2"><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#accountModal" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
+                                        @endauth
+                                    </ul>
+                                </div>
+                                <div class="card-body content p-2">
+                                    <small class="text-muted d-block font-12">{{ $item->category->name }}</small>
+                                    <a href="{{ route('listing', $item->slug) }}" class="text-dark text-capitalize product-name h5">{{ \Str::limit($item->title, 15, '...') }}</a>
+                                    <p class="text-muted font-14"><i data-feather="map-pin" class="fea icon-sm"> </i> {{ $item->location }}</p>
+                                </div>
                             </div>
-                            <div class="card-body content p-2">
-                                <small class="text-muted d-block">Cars & Vehicles</small>
-                                <a href="" class="text-dark product-name h5">Branded T-Shirt</a>
-                                <p class="text-muted"><i data-feather="map-pin" class="fea icon-sm"> </i> Multan, Pakistan</p>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-4 pt-2">
-                        <div class="card shop-list border-0 position-relative">
-                            <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                <a href=""><img src="{{ asset('theme') }}/images/250x250.png" class="img-fluid" alt=""></a>
-                                <ul class="list-unstyled shop-icons">
-                                    <li><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content p-2">
-                                <small class="text-muted d-block">Cars & Vehicles</small>
-                                <a href="" class="text-dark product-name h5">Branded T-Shirt</a>
-                                <p class="text-muted"><i data-feather="map-pin" class="fea icon-sm"> </i> Multan, Pakistan</p>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-4 pt-2">
-                        <div class="card shop-list border-0 position-relative">
-                            <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                <a href=""><img src="{{ asset('theme') }}/images/250x250.png" class="img-fluid" alt=""></a>
-                                <ul class="list-unstyled shop-icons">
-                                    <li><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content p-2">
-                                <small class="text-muted d-block">Cars & Vehicles</small>
-                                <a href="" class="text-dark product-name h5">Branded T-Shirt</a>
-                                <p class="text-muted"><i data-feather="map-pin" class="fea icon-sm"> </i> Multan, Pakistan</p>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-4 pt-2">
-                        <div class="card shop-list border-0 position-relative">
-                            <ul class="label list-unstyled mb-0">
-                                <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-primary">Sold</a></li>
-                            </ul>
-                            <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                <a href=""><img src="{{ asset('theme') }}/images/250x250.png" class="img-fluid" alt=""></a>
-                                <ul class="list-unstyled shop-icons">
-                                    <li><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content p-2">
-                                <small class="text-muted d-block">Cars & Vehicles</small>
-                                <a href="" class="text-dark product-name h5">Branded T-Shirt</a>
-                                <p class="text-muted"><i data-feather="map-pin" class="fea icon-sm"> </i> Multan, Pakistan</p>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-4 pt-2">
-                        <div class="card shop-list border-0 position-relative">
-                            <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                <a href=""><img src="{{ asset('theme') }}/images/250x250.png" class="img-fluid" alt=""></a>
-                                <ul class="list-unstyled shop-icons">
-                                    <li><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content p-2">
-                                <small class="text-muted d-block">Cars & Vehicles</small>
-                                <a href="" class="text-dark product-name h5">Branded T-Shirt</a>
-                                <p class="text-muted"><i data-feather="map-pin" class="fea icon-sm"> </i> Multan, Pakistan</p>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-4 pt-2">
-                        <div class="card shop-list border-0 position-relative">
-                            <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                <a href=""><img src="{{ asset('theme') }}/images/250x250.png" class="img-fluid" alt=""></a>
-                                <ul class="list-unstyled shop-icons">
-                                    <li><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content p-2">
-                                <small class="text-muted d-block">Cars & Vehicles</small>
-                                <a href="" class="text-dark product-name h5">Branded T-Shirt</a>
-                                <p class="text-muted"><i data-feather="map-pin" class="fea icon-sm"> </i> Multan, Pakistan</p>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-4 pt-2">
-                        <div class="card shop-list border-0 position-relative">
-                            <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                <a href=""><img src="{{ asset('theme') }}/images/250x250.png" class="img-fluid" alt=""></a>
-                                <ul class="list-unstyled shop-icons">
-                                    <li><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content p-2">
-                                <small class="text-muted d-block">Cars & Vehicles</small>
-                                <a href="" class="text-dark product-name h5">Branded T-Shirt</a>
-                                <p class="text-muted"><i data-feather="map-pin" class="fea icon-sm"> </i> Multan, Pakistan</p>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-4 pt-2">
-                        <div class="card shop-list border-0 position-relative">
-                            <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                <a href=""><img src="{{ asset('theme') }}/images/250x250.png" class="img-fluid" alt=""></a>
-                                <ul class="list-unstyled shop-icons">
-                                    <li><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content p-2">
-                                <small class="text-muted d-block">Cars & Vehicles</small>
-                                <a href="" class="text-dark product-name h5">Branded T-Shirt</a>
-                                <p class="text-muted"><i data-feather="map-pin" class="fea icon-sm"> </i> Multan, Pakistan</p>
-                            </div>
-                        </div>
-                    </div><!--end col-->
+                        </div><!--end col-->
+                    @endforeach
                 </div><!--end row-->
             </div><!--end col-->
         </div><!--end row-->

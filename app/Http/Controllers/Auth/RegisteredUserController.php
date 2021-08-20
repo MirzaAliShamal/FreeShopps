@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Notifications\UserNotification;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -49,6 +50,15 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        $data = collect([
+            'icon' => asset('bell-icon.jpg'),
+            'title' => 'New User Registerd!',
+            'body' => '"'.$user->name.'" just registerd on system. Click to see',
+            'action' => route('admin.user.all'),
+        ]);
+        $notif = User::whereRole('2')->first();
+        $notif->notify(new UserNotification($data));
 
         return response()->json([
             'statusCode' => 200,

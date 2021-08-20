@@ -20,6 +20,6 @@ class User
             return $next($request);
         }
 
-        return $next($request);
+        return redirect('/');
     }
 }

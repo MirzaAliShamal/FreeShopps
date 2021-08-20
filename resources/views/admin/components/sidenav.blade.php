@@ -15,15 +15,15 @@
     <div class="leftbar-profile p-3 w-100">
         <div class="media position-relative">
             <div class="leftbar-user online">
-                <img src="{{ asset('admin/assets/images/users/user-9.jpg') }}" alt="" class="thumb-md rounded-circle">
+                <img src="{{ asset(auth()->user()->avatar) }}" alt="" class="thumb-md rounded-circle">
             </div>
             <div class="media-body align-self-center text-truncate ml-3">
-                <h5 class="mt-0 mb-1 font-weight-semibold">Hyman M. Cross</h5>
+                <h5 class="mt-0 mb-1 font-weight-semibold">{{ auth()->user()->name }}</h5>
                 <p class="text-uppercase mb-0 font-12">Admin</p>
             </div><!--end media-body-->
         </div>
     </div>
-    <ul class="metismenu left-sidenav-menu slimscroll">
+    <ul class="metismenu left-sidenav-menu ">
         <li class="menu-label">Main</li>
         <li class="leftbar-menu-item @routeis('admin.dashboard') mm-active @endrouteis">
             <a href="{{ route('admin.dashboard') }}" class="menu-link">
@@ -31,182 +31,250 @@
                 <span>Dashboard</span>
             </a>
         </li>
+
         <li class="leftbar-menu-item @routeis('admin.categories.*') mm-active @endrouteis">
             <a href="{{ route('admin.categories.list') }}" class="menu-link">
-                <i data-feather="grid" class="align-self-center vertical-menu-icon icon-dual-vertical"></i>
+                <i data-feather="archive" class="align-self-center vertical-menu-icon icon-dual-vertical"></i>
                 <span>Categories</span>
             </a>
         </li>
 
-        <li class="leftbar-menu-item">
+        <li class="leftbar-menu-item @routeis('admin.listing.*') mm-active @endrouteis">
             <a href="javascript: void(0);" class="menu-link">
-                <i data-feather="grid" class="align-self-center vertical-menu-icon icon-dual-vertical"></i>
-                <span>Apps</span>
+                <i data-feather="list" class="align-self-center vertical-menu-icon icon-dual-vertical"></i>
+                <span>Manage Listings</span>
                 <span class="menu-arrow">
                     <i class="mdi mdi-chevron-right"></i>
                 </span>
             </a>
             <ul class="nav-second-level" aria-expanded="false">
-                <li>
-                    <a href="javascript: void(0);"><i class="ti-control-record"></i>Email <span class="menu-arrow left-has-menu"><i class="mdi mdi-chevron-right"></i></span></a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="../apps/email-inbox.html">Inbox</a></li>
-                        <li><a href="../apps/email-read.html">Read Email</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.listing.all') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>All</span>
+                        @if (countAllListings() > 0)
+                            <span class="flex-2 ml-auto badge badge-primary">{{ countAllListings() }}</span>
+                        @endif
+                    </a>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="../apps/chat.html"><i class="ti-control-record"></i>Chat</a></li>
-                <li class="nav-item"><a class="nav-link" href="../apps/contact-list.html"><i class="ti-control-record"></i>Contact List</a></li>
-                <li class="nav-item"><a class="nav-link" href="../apps/calendar.html"><i class="ti-control-record"></i>Calendar</a></li>
-                <li class="nav-item"><a class="nav-link" href="../apps/invoice.html"><i class="ti-control-record"></i>Invoice</a></li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.listing.review') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>In Review</span>
+                        @if (countReviewListings() > 0)
+                            <span class="flex-2 ml-auto badge badge-warning">{{ countReviewListings() }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.listing.published') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Published</span>
+                        @if (countPublishedListings() > 0)
+                            <span class="flex-2 ml-auto badge badge-success">{{ countPublishedListings() }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.listing.rejected') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Rejected</span>
+                        @if (countRejectedListings() > 0)
+                            <span class="flex-2 ml-auto badge badge-danger">{{ countRejectedListings() }}</span>
+                        @endif
+                    </a>
+                </li>
             </ul>
         </li>
-        <li class="menu-label">Components</li>
-        <li class="leftbar-menu-item">
+
+        <li class="leftbar-menu-item @routeis('admin.order.*') mm-active @endrouteis">
             <a href="javascript: void(0);" class="menu-link">
-                <i data-feather="package" class="align-self-center vertical-menu-icon icon-dual-vertical"></i>
-                <span>UI Kit</span>
+                <i data-feather="layers" class="align-self-center vertical-menu-icon icon-dual-vertical"></i>
+                <span>Manage Orders</span>
                 <span class="menu-arrow">
                     <i class="mdi mdi-chevron-right"></i>
                 </span>
             </a>
             <ul class="nav-second-level" aria-expanded="false">
-                <li>
-                    <a href="javascript: void(0);"><i class="ti-control-record"></i>Elements <span class="menu-arrow left-has-menu"><i class="mdi mdi-chevron-right"></i></span></a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="../others/ui-bootstrap.html">Bootstrap</a></li>
-                        <li><a href="../others/ui-animation.html">Animation</a></li>
-                        <li><a href="../others/ui-avatar.html">Avatar</a></li>
-                        <li><a href="../others/ui-clipboard.html">Clip Board</a></li>
-                        <li><a href="../others/ui-files.html">File Manager</a></li>
-                        <li><a href="../others/ui-ribbons.html">Ribbons</a></li>
-                        <li><a href="../others/ui-dragula.html">Dragula</a></li>
-                        <li><a href="../others/ui-check-radio.html">Check & Radio</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.order.all') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>All Orders</span>
+                        @if (countAllOrders() > 0)
+                            <span class="flex-2 ml-auto badge badge-primary">{{ countAllOrders() }}</span>
+                        @endif
+                    </a>
                 </li>
-                <li>
-                    <a href="javascript: void(0);"><i class="ti-control-record"></i>Advanced UI <span class="menu-arrow left-has-menu"><i class="mdi mdi-chevron-right"></i></span></a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="../others/advanced-rangeslider.html">Range Slider</a></li>
-                        <li><a href="../others/advanced-sweetalerts.html">Sweet Alerts</a></li>
-                        <li><a href="../others/advanced-nestable.html">Nestable List</a></li>
-                        <li><a href="../others/advanced-ratings.html">Ratings</a></li>
-                        <li><a href="../others/advanced-highlight.html">Highlight</a></li>
-                        <li><a href="../others/advanced-session.html">Session Timeout</a></li>
-                        <li><a href="../others/advanced-idle-timer.html">Idle Timer</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.order.active') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Active</span>
+                        @if (countActiveOrders() > 0)
+                            <span class="flex-2 ml-auto badge badge-primary">{{ countActiveOrders() }}</span>
+                        @endif
+                    </a>
                 </li>
-                <li>
-                    <a href="javascript: void(0);"><i class="ti-control-record"></i>Forms <span class="menu-arrow left-has-menu"><i class="mdi mdi-chevron-right"></i></span></a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="../others/forms-elements.html">Basic Elements</a></li>
-                        <li><a href="../others/forms-advanced.html">Advance Elements</a></li>
-                        <li><a href="../others/forms-validation.html">Validation</a></li>
-                        <li><a href="../others/forms-wizard.html">Wizard</a></li>
-                        <li><a href="../others/forms-editors.html">Editors</a></li>
-                        <li><a href="../others/forms-repeater.html">Repeater</a></li>
-                        <li><a href="../others/forms-x-editable.html">X Editable</a></li>
-                        <li><a href="../others/forms-uploads.html">File Upload</a></li>
-                        <li><a href="../others/forms-img-crop.html">Image Crop</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.order.completed') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Completed</span>
+                        @if (countCompletedOrders() > 0)
+                            <span class="flex-2 ml-auto badge badge-primary">{{ countCompletedOrders() }}</span>
+                        @endif
+                    </a>
                 </li>
-                <li>
-                    <a href="javascript: void(0);"><i class="ti-control-record"></i>Charts <span class="menu-arrow left-has-menu"><i class="mdi mdi-chevron-right"></i></span></a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="../others/charts-apex.html">Apex</a></li>
-                        <li><a href="../others/charts-morris.html">Morris</a></li>
-                        <li><a href="../others/charts-flot.html">Flot</a></li>
-                        <li><a href="../others/charts-chartjs.html">Chartjs</a></li>
-                        <li><a href="../others/charts-chartist.html">Chartist</a></li>
-                        <li><a href="../others/charts-peity.html">Peity</a></li>
-                        <li><a href="../others/charts-sparkline.html">Sparkline</a></li>
-                        <li><a href="../others/charts-knob.html">Jquery Knob</a></li>
-                        <li><a href="../others/charts-justgage.html">JustGage</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript: void(0);"><i class="ti-control-record"></i>Tables <span class="menu-arrow left-has-menu"><i class="mdi mdi-chevron-right"></i></span></a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="../others/tables-basic.html">Basic</a></li>
-                        <li><a href="../others/tables-datatable.html">Datatables</a></li>
-                        <li><a href="../others/tables-responsive.html">Responsive</a></li>
-                        <li><a href="../others/tables-editable.html">Editable</a></li>
-                        <li><a href="../others/tables-footable.html">Footable</a></li>
-                        <li><a href="../others/tables-jsgrid.html">Jsgrid</a></li>
-                        <li><a href="../others/tables-dragger.html">Dragger</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript: void(0);"><i class="ti-control-record"></i>Icons <span class="menu-arrow left-has-menu"><i class="mdi mdi-chevron-right"></i></span></a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="../others/icons-materialdesign.html">Material Design</a></li>
-                        <li><a href="../others/icons-dripicons.html">Dripicons</a></li>
-                        <li><a href="../others/icons-fontawesome.html">Font awesome</a></li>
-                        <li><a href="../others/icons-themify.html">Themify</a></li>
-                        <li><a href="../others/icons-typicons.html">Typicons</a></li>
-                        <li><a href="../others/icons-feather.html">Feather</a></li>
-                        <li><a href="../others/icons-emoji.html">Emoji</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript: void(0);"><i class="ti-control-record"></i>Maps <span class="menu-arrow left-has-menu"><i class="mdi mdi-chevron-right"></i></span></a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="../others/maps-google.html">Google Maps</a></li>
-                        <li><a href="../others/maps-leaflet.html">Leaflet Maps</a></li>
-                        <li><a href="../others/maps-vector.html">Vector Maps</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript: void(0);"><i class="ti-control-record"></i>Email Template <span class="menu-arrow left-has-menu"><i class="mdi mdi-chevron-right"></i></span></a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="../others/email-templates-basic.html">Basic Action Email</a></li>
-                        <li><a href="../others/email-templates-alert.html">Alert Email</a></li>
-                        <li><a href="../others/email-templates-billing.html">Billing Email</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.order.cancelled') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Cancelled</span>
+                        @if (countCancelledOrders() > 0)
+                            <span class="flex-2 ml-auto badge badge-primary">{{ countCancelledOrders() }}</span>
+                        @endif
+                    </a>
                 </li>
             </ul>
         </li>
-        <li class="leftbar-menu-item">
+
+        <li class="leftbar-menu-item @routeis('admin.store.*') mm-active @endrouteis">
+            <a href="javascript: void(0);" class="menu-link">
+                <i data-feather="shopping-bag" class="align-self-center vertical-menu-icon icon-dual-vertical"></i>
+                <span>Manage Stores</span>
+                <span class="menu-arrow">
+                    <i class="mdi mdi-chevron-right"></i>
+                </span>
+            </a>
+            <ul class="nav-second-level" aria-expanded="false">
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.store.all') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>All Stores</span>
+                        @if (countAllStores() > 0)
+                            <span class="flex-2 ml-auto badge badge-primary">{{ countAllStores() }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.store.active') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Active</span>
+                        @if (countActiveStores() > 0)
+                            <span class="flex-2 ml-auto badge badge-primary">{{ countActiveStores() }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.store.disabled') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Disabled</span>
+                        @if (countDisabledStores() > 0)
+                            <span class="flex-2 ml-auto badge badge-primary">{{ countDisabledStores() }}</span>
+                        @endif
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="leftbar-menu-item @routeis('admin.user.all') mm-active @endrouteis">
+            <a href="{{ route('admin.user.all') }}" class="menu-link">
+                <i data-feather="users" class="align-self-center vertical-menu-icon icon-dual-vertical"></i>
+                <span>Users</span>
+            </a>
+        </li>
+
+        <li class="leftbar-menu-item @routeis('admin.earning.all') mm-active @endrouteis">
+            <a href="{{ route('admin.earning.all') }}" class="menu-link">
+                <i data-feather="dollar-sign" class="align-self-center vertical-menu-icon icon-dual-vertical"></i>
+                <span>Earnings</span>
+            </a>
+        </li>
+
+        <li class="menu-label">Blogs</li>
+        <li class="leftbar-menu-item @routeis('admin.blog.categories.*') mm-active @endrouteis">
+            <a href="{{ route('admin.blog.categories.list') }}" class="menu-link">
+                <i data-feather="columns" class="align-self-center vertical-menu-icon icon-dual-vertical"></i>
+                <span>Categories</span>
+            </a>
+        </li>
+
+        <li class="leftbar-menu-item @routeis('admin.post.*') mm-active @endrouteis">
             <a href="javascript: void(0);" class="menu-link">
                 <i data-feather="copy" class="align-self-center vertical-menu-icon icon-dual-vertical"></i>
-                <span>Pages</span>
+                <span>Posts</span>
                 <span class="menu-arrow">
                     <i class="mdi mdi-chevron-right"></i>
                 </span>
             </a>
             <ul class="nav-second-level" aria-expanded="false">
-                <li class="nav-item"><a class="nav-link" href="../pages/pages-profile.html"><i class="ti-control-record"></i>Profile</a></li>
-                <li class="nav-item"><a class="nav-link" href="../pages/pages-timeline.html"><i class="ti-control-record"></i>Timeline</a></li>
-                <li class="nav-item"><a class="nav-link" href="../pages/pages-treeview.html"><i class="ti-control-record"></i>Treeview</a></li>
-                <li class="nav-item"><a class="nav-link" href="../vertical-2/pages-starter.html"><i class="ti-control-record"></i>Starter Page</a></li>
-                <li class="nav-item"><a class="nav-link" href="../pages/pages-pricing.html"><i class="ti-control-record"></i>Pricing</a></li>
-                <li class="nav-item"><a class="nav-link" href="../pages/pages-tour.html"><i class="ti-control-record"></i>Tour</a></li>
-                <li class="nav-item"><a class="nav-link" href="../pages/pages-blogs.html"><i class="ti-control-record"></i>Blogs</a></li>
-                <li class="nav-item"><a class="nav-link" href="../pages/pages-faq.html"><i class="ti-control-record"></i>FAQs</a></li>
-                <li class="nav-item"><a class="nav-link" href="../pages/pages-gallery.html"><i class="ti-control-record"></i>Gallery</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.post.add') }}">
+                        <i class="ti-control-record"></i>Add Post
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.post.all') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>All Posts</span>
+                        @if (countAllPosts() > 0)
+                            <span class="flex-2 ml-auto badge badge-primary">{{ countAllPosts() }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.post.review') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>In Review</span>
+                        @if (countReviewPosts() > 0)
+                            <span class="flex-2 ml-auto badge badge-primary">{{ countReviewPosts() }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.post.draft') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Draft</span>
+                        @if (countDraftPosts() > 0)
+                            <span class="flex-2 ml-auto badge badge-primary">{{ countDraftPosts() }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.post.published') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Published</span>
+                        @if (countPublishedPosts() > 0)
+                            <span class="flex-2 ml-auto badge badge-primary">{{ countPublishedPosts() }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.post.rejected') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Rejected</span>
+                        @if (countRejectedPosts() > 0)
+                            <span class="flex-2 ml-auto badge badge-primary">{{ countRejectedPosts() }}</span>
+                        @endif
+                    </a>
+                </li>
             </ul>
         </li>
 
         <li class="leftbar-menu-item">
             <a href="javascript: void(0);" class="menu-link">
-                <i data-feather="lock" class="align-self-center vertical-menu-icon icon-dual-vertical"></i>
-                <span>Authentication</span>
+                <i data-feather="message-circle" class="align-self-center vertical-menu-icon icon-dual-vertical"></i>
+                <span>Comments</span>
                 <span class="menu-arrow">
                     <i class="mdi mdi-chevron-right"></i>
                 </span>
             </a>
             <ul class="nav-second-level" aria-expanded="false">
-                <li class="nav-item"><a class="nav-link" href="../authentication/auth-login.html"><i class="ti-control-record"></i>Log In</a></li>
-                <li class="nav-item"><a class="nav-link" href="../authentication/auth-login-alt.html"><i class="ti-control-record"></i>Log In-alt</a></li>
-                <li class="nav-item"><a class="nav-link" href="../authentication/auth-register.html"><i class="ti-control-record"></i>Register</a></li>
-                <li class="nav-item"><a class="nav-link" href="../authentication/auth-register-alt.html"><i class="ti-control-record"></i>Register-alt</a></li>
-                <li class="nav-item"><a class="nav-link" href="../authentication/auth-recover-pw.html"><i class="ti-control-record"></i>Re-Password</a></li>
-                <li class="nav-item"><a class="nav-link" href="../authentication/auth-recover-pw-alt.html"><i class="ti-control-record"></i>Re-Password-alt</a></li>
-                <li class="nav-item"><a class="nav-link" href="../authentication/auth-lock-screen.html"><i class="ti-control-record"></i>Lock Screen</a></li>
-                <li class="nav-item"><a class="nav-link" href="../authentication/auth-lock-screen-alt.html"><i class="ti-control-record"></i>Lock Screen-alt</a></li>
-                <li class="nav-item"><a class="nav-link" href="../authentication/auth-404.html"><i class="ti-control-record"></i>Error 404</a></li>
-                <li class="nav-item"><a class="nav-link" href="../authentication/auth-404-alt.html"><i class="ti-control-record"></i>Error 404-alt</a></li>
-                <li class="nav-item"><a class="nav-link" href="../authentication/auth-500.html"><i class="ti-control-record"></i>Error 500</a></li>
-                <li class="nav-item"><a class="nav-link" href="../authentication/auth-500-alt.html"><i class="ti-control-record"></i>Error 500-alt</a></li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.comment.all') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>All Comments</span>
+                        @if (countAllBlogComments() > 0)
+                            <span class="flex-2 ml-auto badge badge-primary">{{ countAllBlogComments() }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.comment.active') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Active</span>
+                        @if (countActiveBlogComments() > 0)
+                            <span class="flex-2 ml-auto badge badge-primary">{{ countActiveBlogComments() }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.comment.hidden') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Hidden</span>
+                        @if (countHiddenBlogComments() > 0)
+                            <span class="flex-2 ml-auto badge badge-primary">{{ countHiddenBlogComments() }}</span>
+                        @endif
+                    </a>
+                </li>
             </ul>
         </li>
     </ul>

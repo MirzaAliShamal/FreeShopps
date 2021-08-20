@@ -28,6 +28,7 @@ class User extends Authenticatable
         'location',
         'location_lat',
         'location_long',
+        'fcm_token',
     ];
 
     /**
@@ -72,5 +73,9 @@ class User extends Authenticatable
 
     public function transactions() {
         return $this->hasMany('App\Models\Transaction');
+    }
+
+    public function participants() {
+        return $this->hasMany('App\Models\Participant');
     }
 }

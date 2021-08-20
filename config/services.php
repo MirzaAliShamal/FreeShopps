@@ -30,4 +30,14 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'firebase' => [
+        'api_key' => 'AIzaSyB1LrVTNJBaEXEzM-RSBzdxif3amKaebiY"',
+        'auth_domain' => 'freeshopps-3a888.firebaseapp.com',
+        'database_url' => 'https://freeshopps-3a888-default-rtdb.firebaseio.com/',
+        'secret' => 'RdoqXkPMHYUd0Ocm1LFkPZAlHTtlahUUJcp71Ai5',
+        'storage_bucket' => 'freeshopps-3a888.appspot.com',
+        'project_id' => 'freeshopps-3a888',
+        'messaging_sender_id' => '832326338339'
+    ],
+
 ];

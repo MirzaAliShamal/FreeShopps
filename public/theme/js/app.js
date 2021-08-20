@@ -187,12 +187,12 @@ function topFunction() {
 feather.replace();
 
 // dd-menu
-var ddmenu = document.getElementsByClassName("dd-menu");
-for(var i = 0, len = ddmenu.length; i < len; i++) {
-    ddmenu[i].onclick = function (elem) {
-        elem.stopPropagation();
-    }
-}
+// var ddmenu = document.getElementsByClassName("dd-menu");
+// for(var i = 0, len = ddmenu.length; i < len; i++) {
+//     ddmenu[i].onclick = function (elem) {
+//         elem.stopPropagation();
+//     }
+// }
 
 //Tooltip
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
@@ -204,5 +204,5 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 try {
     var spy = new Gumshoe('#navmenu-nav a');
 }catch(err) {
-    
+
 }

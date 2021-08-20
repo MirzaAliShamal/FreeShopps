@@ -6,6 +6,7 @@
     <meta charset="utf-8" />
     <title>@yield('title') - Freeshopps.com</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @yield('og')
     <!-- favicon -->
     <link rel="shortcut icon" href="{{ asset('favicon.png') }}">
     <!-- Bootstrap -->
@@ -21,6 +22,7 @@
     <link href="{{ asset('theme/css/font/font-fileuploader.css') }}" rel="stylesheet">
     <link href="{{ asset('theme/css/jquery.fileuploader.min.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+    <link href="{{ asset('admin/plugins/sweet-alert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
 
     <!-- Main Css -->
     <link href="{{ asset('theme/css/style.css') }}" rel="stylesheet" type="text/css" id="theme-opt" />
@@ -243,8 +245,10 @@
     <script src="{{ asset('theme/js/app.js') }}"></script><!--Note: All important javascript like page loader, menu, sticky menu, menu-toggler, one page menu etc. -->
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script src="{{ asset('theme/js/jquery.fileuploader.min.js') }}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6GhjR-WmiKCgr71McBioeymDd6_Ti_0s&callback=initMap&libraries=places&v=weekly"async></script>
+    {{-- <script src="http://www.google.com/jsapi"></script> --}}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-2mhVoLX7oIOgRQ-6bxlJt4TF5k0xhWc&callback=initMap&libraries=places&v=weekly" async></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="{{ asset('admin/plugins/sweet-alert2/sweetalert2.min.js') }}"></script>
 
     <script>
         function accountsModalHandle(target) {
@@ -264,6 +268,31 @@
                 }
             });
         }
+
+        // Current Location
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    let lat = position.coords.latitude;
+                    let long = position.coords.longitude;
+
+                    var latlng = new google.maps.LatLng(lat, long);
+                    var geocoder = new google.maps.Geocoder();
+                    geocoder.geocode({'latLng': latlng}, function(results, status) {
+                        if(status == google.maps.GeocoderStatus.OK) {
+                            console.log(results);
+                        };
+                    });
+                }, function() {
+                    alert('You did not allow us to share location.');
+                });
+            }
+        }
+
+        $(document).ready(function () {
+            // getLocation();
+        });
 
         // Login Form Event
         $(".login-form").submit(function (e) {

@@ -86,6 +86,55 @@
                                     </div>
                                 </div>
                             </li>
+                            @php
+                                $user = auth()->user();
+                            @endphp
+                            <li>
+                                <div class="dropdown notif">
+                                    <button type="button" class="btn btn-icon btn-soft-primary {{ $user->unreadNotifications()->groupBy('notifiable_type')->count() > 0 ? 'notif-drop' : '' }}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="uil uil-bell align-middle icons"></i></button>
+                                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 notification-dropdown">
+                                        <div class="d-flex px-3 py-2">
+                                            <h6 class="text-sm text-muted m-0">
+                                                You have
+                                                <strong class="text-primary notif-count">
+                                                    {{ $user->unreadNotifications()->groupBy('notifiable_type')->count() }}
+                                                </strong>
+                                                unread notifications.
+                                            </h6>
+                                            <span class="read-all d-inline-block cursor-pointer font-20 ms-auto">
+                                                <i class="uil {{ $user->unreadNotifications()->groupBy('notifiable_type')->count() > 0 ? 'uil-envelope' : 'uil-envelope-open' }} align-middle icons"></i>
+                                            </span>
+                                        </div>
+                                        <ul class="notifications">
+                                            @if (count($user->notifications) > 0)
+                                                @foreach ($user->notifications as $notif)
+                                                    <a href="{{ route('notification', $notif->id) }}" style="text-decoration: none; color:inherit;">
+                                                        <li class="{{ is_null($notif->read_at) ? 'active' : '' }}">
+                                                            <div class="d-flex">
+                                                                <div class="">
+                                                                    <div class="notif-icon">
+                                                                        <img src="{{ asset('bell-icon.jpg') }}" class="img-fluid" alt="Notif Icon">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="px-1">
+                                                                    <strong>{{ $notif->data['data']['title'] }}</strong>
+                                                                    <p>{{ $notif->data['data']['body'] }}</p>
+                                                                    <small class="text-muted text-end">{{ $notif->created_at->diffForHumans() }}</small>
+                                                                </div>
+                                                                <div class="px-1 ms-auto">
+                                                                    <span data-id="{{ $notif->id }}" class="read-status d-inline-block font-20"><i class="uil {{ is_null($notif->read_at) ? 'uil-envelope' : 'uil-envelope-open' }} align-middle icons"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </a>
+                                                @endforeach
+                                            @else
+                                                <li class="text-center"><h4>No notification yet!</h4></li>
+                                            @endif
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
                         @else
                             <li><a href="javascript:;" data-bs-toggle="modal" data-bs-target="#accountModal">Login</a></li>
                         @endauth

@@ -18,6 +18,14 @@
     font-size: 16px !important;
 }
 
+.font-18 {
+    font-size: 18px !important;
+}
+
+.font-20 {
+    font-size: 20px !important;
+}
+
 .cursor-pointer {
     cursor: pointer;
 }
@@ -145,6 +153,114 @@
 .page-next-level .page-next {
     top: 50px;
 }
+
+.pending-pointer span {
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    border-radius: 100%;
+    padding: 0px;
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    text-align: center;
+}
+
+.notification-dropdown {
+    width: 350px;
+    max-height:400px;
+    overflow-y:auto;
+    margin: 0px;
+    padding: 0px;
+}
+
+.notification-dropdown .notifications {
+    padding: 0px;
+    margin: 0px;
+    display: block;
+    list-style: none;
+}
+
+.notification-dropdown .notifications li {
+    list-style: none;
+    display: block;
+    padding: 10px 12px;
+    border-top: 1px solid #eee;
+    cursor: pointer;
+    transition: 0.3s all ease-in-out;
+}
+
+.notification-dropdown .notifications li.active {
+    background-color: #f8f9fc;
+    transition: 0.3s all ease-in-out;
+}
+
+.notification-dropdown .notifications li:hover {
+    background-color: #f8f9fc;
+    transition: 0.3s all ease-in-out;
+}
+
+.notification-dropdown .notifications li .notif-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+}
+
+.notification-dropdown .notifications li .notif-icon img {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.notification-dropdown .notifications li p {
+    margin: 0px;
+    padding: 0px;
+    font-size: 12px;
+}
+
+.notification-dropdown .notifications li small {
+    font-size: 10px;
+}
+
+.notif-drop {
+    position: relative;
+}
+
+.notif-drop::after {
+    position: absolute;
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 100px;
+    background-color: red;
+    top: 20%;
+    left: 25%;
+}
+
+
+.warning-message {
+    display: none;
+    position: absolute;
+    bottom: 8%;
+    left: 0px;
+    width: 100%;
+    padding: 0.5rem 0.5rem;
+    background-color: #ffffff;
+}
+
+.blog-card-image {
+    width: 100%;
+    height: 265px;
+}
+
+.blog-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
 
 @media (min-width: 992px) {
     #topnav .navigation-menu > .has-submenu:hover .menu-arrow {

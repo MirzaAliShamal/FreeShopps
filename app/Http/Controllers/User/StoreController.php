@@ -18,12 +18,13 @@ class StoreController extends Controller
     {
         $user = auth()->user();
         if (is_null($user->store)) {
-            Store::create([
+            $store = Store::create([
                 'user_id' => $user->id,
             ]);
+        } else {
+            $store = $user->store;
         }
 
-        $store = $user->store;
 
         $is_closed = [];
         $is_24h = [];

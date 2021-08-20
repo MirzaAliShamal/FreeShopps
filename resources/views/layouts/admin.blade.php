@@ -6,6 +6,8 @@
         <title>@yield('title') - FreeShopps </title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="current" content="{{ auth()->user()->id }}">
+        <meta name="role" content="{{ auth()->user()->role }}">
 
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('favicon.png') }}">
@@ -21,6 +23,9 @@
         <link href="{{ asset('admin/plugins/sweet-alert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('admin/plugins/animate/animate.css') }}" rel="stylesheet" type="text/css">
 
+        <link href="{{ asset('admin/plugins/dropify/css/dropify.min.css') }}" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.6.0/bootstrap-tagsinput.min.css" rel="stylesheet">
+
         <!-- App css -->
         <link href="{{ asset('admin/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('admin/assets/css/jquery-ui.min.css') }}" rel="stylesheet">
@@ -31,6 +36,39 @@
         <style>
             .cursor-pointer {
                 cursor: pointer;
+            }
+
+            .label-info {
+                background-color: #000444;
+                border-color: #000444;
+                padding: 2px 3px;
+                border-radius: 3px;
+            }
+
+            .bootstrap-tagsinput {
+                display: block;
+                border: 1px solid #e8ebf3;
+                border-radius: .25rem;
+                border-bottom: 1px solid #e8ebf3;
+                -webkit-transition: border-color 0s ease-out;
+                transition: border-color 0s ease-out;
+                background-color: #fff;
+                height: calc(1.8em + .75rem + 2px);
+                padding: .375rem .75rem;
+                line-height: 1.8;
+                font-size: .845rem;
+                box-shadow: none
+            }
+
+            .notification-list .unread {
+                background-color: #f1f5fa;
+                color: #000444;
+            }
+
+            .read-status {
+                position: absolute;
+                right: 5%;
+                top: 50%;
             }
         </style>
         @yield('css')
@@ -65,6 +103,9 @@
         <form action="{{ route('logout') }}" method="POST" id="logout-form">@csrf</form>
 
 
+        <script>
+            let notification_url = "{{ route('notification') }}";
+        </script>
         <!-- jQuery  -->
         <script src="{{ asset('admin/assets/js/jquery.min.js') }}"></script>
         <script src="{{ asset('admin/assets/js/jquery-ui.min.js') }}"></script>
@@ -76,24 +117,30 @@
         <script src="{{ asset('admin/plugins/apexcharts/apexcharts.min.js') }}"></script>
 
         <script src="{{ asset('admin/plugins/chartjs/chart.min.js') }}"></script>
-        <script src="{{ asset('admin/plugins/chartjs/roundedBar.min.js') }}"></script>
+        {{-- <script src="{{ asset('admin/plugins/chartjs/roundedBar.min.js') }}"></script> --}}
         <script src="{{ asset('admin/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
         <script src="{{ asset('admin/plugins/jvectormap/jquery-jvectormap-us-aea-en.js') }}"></script>
-        <script src="{{ asset('admin/assets/pages/jquery.ecommerce_dashboard.init.js') }}"></script>
+        {{-- <script src="{{ asset('admin/assets/pages/jquery.ecommerce_dashboard.init.js') }}"></script> --}}
 
         <!-- Required datatable js -->
         <script src="{{ asset('admin/plugins/datatables/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('admin/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
         <!-- Responsive examples -->
-        <script src="{{ asset('admin/plugins/datatables/dataTables.responsive.min.js') }}"></script>
+        {{-- <script src="{{ asset('admin/plugins/datatables/dataTables.responsive.min.js') }}"></script> --}}
         <script src="{{ asset('admin/plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
 
         <!-- Sweet-Alert  -->
         <script src="{{ asset('admin/plugins/sweet-alert2/sweetalert2.min.js') }}"></script>
         <script src="{{ asset('admin/assets/pages/jquery.sweet-alert.init.js') }}"></script>
 
+        <script src="{{ asset('admin/plugins/dropify/js/dropify.min.js') }}"></script>
+        <script src="{{ asset('admin/plugins/tinymce/tinymce.min.js') }}"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6GhjR-WmiKCgr71McBioeymDd6_Ti_0s&callback=initMap&libraries=places&v=weekly" async></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.6.0/bootstrap-tagsinput.min.js"></script>
+
         <!-- App js -->
         <script src="{{ asset('admin/assets/js/app.js') }}"></script>
+        <script src="{{ mix('js/app.js') }}"></script>
         <script>
             // Datatable Initalized
             function serverDT(url, data) {
@@ -119,7 +166,7 @@
                     ],
                     ajax: url,
                     columns: data,
-                    responsive: true,
+                    // responsive: true,
                     language: {
                         search: "_INPUT_",
                         searchPlaceholder: "Search records",
@@ -161,6 +208,34 @@
                     }
                 });
             }
+
+            // Dropify
+            $(".dropify").dropify();
+
+            // Taginput
+            $(".tags").tagsinput('items')
+
+            // Editor
+            tinymce.init({
+                selector: "textarea#editor",
+                theme: "modern",
+                height:300,
+                plugins: [
+                    "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+                    "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                    "save table contextmenu directionality emoticons template paste textcolor"
+                ],
+                toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons",
+                style_formats: [
+                    {title: 'Bold text', inline: 'b'},
+                    {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
+                    {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+                    {title: 'Example 1', inline: 'span', classes: 'example1'},
+                    {title: 'Example 2', inline: 'span', classes: 'example2'},
+                    {title: 'Table styles'},
+                    {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+                ]
+            });
         </script>
         @yield('js')
     </body>

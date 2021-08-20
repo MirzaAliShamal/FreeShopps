@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Add Categories')
+@section('title', 'Edit Categories')
 
 @section('content')
 <div class="container-fluid">
@@ -14,7 +14,7 @@
                         <li class="breadcrumb-item active">Categories</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Add Categories</h4>
+                <h4 class="page-title">Edit Categories</h4>
             </div><!--end page-title-box-->
         </div><!--end col-->
     </div><!--end row-->

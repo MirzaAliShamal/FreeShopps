@@ -4,9 +4,11 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Listing;
 use App\Models\Order;
 use App\Models\User;
 use Carbon\Carbon;
+
 
 class DashboardController extends Controller
 {
@@ -25,6 +27,10 @@ class DashboardController extends Controller
             });
         })->get();
 
+        $active = Listing::where('user_id', $user->id)->whereStatus('2')->count();
+        $rejected = Listing::where('user_id', $user->id)->whereStatus('3')->count();
+        $available = Listing::where('user_id', $user->id)->whereAvailablity('1')->count();
+        $sold = Listing::where('user_id', $user->id)->whereAvailablity('2')->count();
 
         return view('user.dashboard', get_defined_vars());
     }

@@ -2,44 +2,41 @@
 @section('title', 'Home')
 @section('content')
 
+<!-- Hero Start -->
+<section class="bg-half bg-primary d-table w-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12 text-center">
+                <div class="page-next-level">
+                    <h3 class="title text-white"> Being a Good Neighbor is an Art </h3>
+                </div>
+            </div>  <!--end col-->
+        </div><!--end row-->
+    </div> <!--end container-->
+</section><!--end section-->
+<!-- Hero End -->
+
+<!-- Shape Start -->
+<div class="position-relative">
+    <div class="shape overflow-hidden text-white">
+        <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
+        </svg>
+    </div>
+</div>
+<!--Shape End-->
+
 <!-- Start Products -->
-<section class="section">
+<section class="section pt-5">
     <div class="container-fluid">
         <div class="row">
 
             <div class="col-lg-12 col-md-12 col-12 mt-5 pt-2 mt-sm-0 pt-sm-0">
 
-                <div class="row">
-                    @foreach ($listings as $item)
-                        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-4 pt-2">
-                            <div class="card shop-list border-0 position-relative">
-                                @if ($item->availablity == "2")
-                                    <ul class="label list-unstyled mb-0">
-                                        <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-primary">Sold</a></li>
-                                    </ul>
-                                @endif
-                                <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                    <a href="{{ route('listing', $item->slug) }}"><img src="{{ asset($item->featured_image) }}" class="img-fluid" alt=""></a>
-                                    @if ($item->availablity == "1")
-                                        <ul class="list-unstyled shop-icons">
-                                            @auth
-                                                <li><a href="javascript:void(0)" data-id="{{ $item->id }}" class="btn btn-icon btn-pills btn-soft-danger {{ checkFav($item->id) ? 'active' : 'addFav' }}"><i data-feather="heart" class="icons"></i></a></li>
-                                                <li class="mt-2"><a href="javascript:void(0)" data-id="{{ $item->id }}" class="btn btn-icon btn-pills btn-soft-warning {{ checkCart($item->id) ? 'active' : 'addCart' }}"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                                            @else
-                                                <li><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#accountModal" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                                                <li class="mt-2"><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#accountModal" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                                            @endauth
-                                        </ul>
-                                    @endif
-                                </div>
-                                <div class="card-body content p-2">
-                                    <small class="text-muted d-block font-12">{{ $item->category->name }}</small>
-                                    <a href="{{ route('listing', $item->slug) }}" class="text-dark text-capitalize product-name h5">{{ \Str::limit($item->title, 15, '...') }}</a>
-                                    <p class="text-muted font-14"><i data-feather="map-pin" class="fea icon-sm"> </i> {{ $item->location }}</p>
-                                </div>
-                            </div>
-                        </div><!--end col-->
-                    @endforeach
+                <div class="row listing-load">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"></div>
+                    </div>
                 </div><!--end row-->
             </div><!--end col-->
         </div><!--end row-->

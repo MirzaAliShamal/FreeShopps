@@ -33,7 +33,7 @@
                 </form>
             </div>
             <div class="col-xl-2 col-lg-2 col-md-12 order-lg-4 order-5 m-auto">
-                <a href="" class="location"><i data-feather="map-pin" class="icons"></i> Nearby</a>
+                <a href="javascript:;" class="location" data-bs-toggle="modal" data-bs-target="#nearbyModal"><i data-feather="map-pin" class="icons"></i> <span class="header-location-name">Nearby</span></a>
             </div>
             <div class="col-xl-5 col-lg-5 col-md-10 col-sm-8 col-7 order-lg-5 order-3 m-auto">
                 <div class="top-nav text-end">
@@ -76,11 +76,7 @@
                                             </div>
 
                                             <div class="mt-3 text-center pt-4 border-top">
-                                                @if (count(getCart()) > 0)
-                                                    <a href="{{ route('cart') }}" class="btn btn-primary d-block">View Cart</a>
-                                                @else
-                                                    <a href="javascript:void(0)" class="btn btn-primary d-block">View Cart</a>
-                                                @endif
+                                                <a href="{{ route('cart') }}" class="btn btn-primary d-block">View Cart</a>
                                             </div>
                                         </div>
                                     </div>

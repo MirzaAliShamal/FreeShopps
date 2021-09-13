@@ -231,6 +231,97 @@
     </div>
     <!-- Account Modal -->
 
+    <!-- Nearby Modal -->
+    <div class="modal fade" id="nearbyModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog  modal-md">
+            <div class="modal-content rounded shadow border-0">
+                <div class="modal-body p-4">
+                    <div class="container-fluid px-0">
+                        <div class="row align-items-center g-0">
+                            <div class="col-lg-12">
+                                <div class="nearby-location">
+                                    <h4 class="text-center">
+                                        <strong>Nearby Location</strong>
+                                        <span class="float-end cursor-pointer" data-bs-dismiss="modal"><i data-feather="x" class="icons"></i></span>
+                                    </h4>
+
+                                    <div class="zip-code-area">
+                                        <p>Zip Code</p>
+                                        <div class="zip-code d-flex">
+                                            <span class="code d-inline-block">Brimley, MI 49715</span>
+                                            <span class="d-inline-block ms-auto"><i data-feather="arrow-right" class="icons"></i></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="distance-area">
+                                        <p>Distance</p>
+                                        <div class="form-group">
+                                            <select name="radius" id="radius" class="form-control">
+                                                <option value="5">5 Miles</option>
+                                                <option value="10">10 Miles</option>
+                                                <option value="20">20 Miles</option>
+                                                <option value="30" selected>30 Miles</option>
+                                                <option value="50">Maximum</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" class="btn btn-primary w-100 mt-5 see-listing" data-bs-dismiss="modal">See Listings</button>
+                                </div>
+
+                                <div class="zip-code-wrapper text-center" style="display: none">
+                                    <h4 class="text-center">
+                                        <span class="float-start back-to-nearby cursor-pointer"><i data-feather="arrow-left" class="icons"></i></span>
+                                        <strong>ZIP Code</strong>
+                                        <span class="float-end cursor-pointer" data-bs-dismiss="modal"><i data-feather="x" class="icons"></i></span>
+                                    </h4>
+
+                                    <p class="mt-5"><strong>Where are you searching?</strong></p>
+                                    <button type="button" onclick="getLocation()" class="btn btn-primary"><i data-feather="map-pin" class="icons"></i> Get my location</button>
+                                    <input type="hidden" name="current_lat" value="">
+                                    <input type="hidden" name="current_lng" value="">
+                                    <p class="mt-3"><strong>OR</strong></p>
+                                    <input type="text" maxlength="5" class="form-control w-25 m-auto text-center" name="postal_code" id="postal_code" placeholder="Enter Zip Code" autocomplete="off" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+                                    <p class="mt-2 postal-code-full"><strong>New Castle, DE</strong></p>
+
+                                    <button type="button" class="btn btn-primary w-100 mt-5 apply-searching">Apply</button>
+                                </div>
+                            </div>
+                        </div><!--end row-->
+                    </div><!--end container-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Nearby Modal -->
+
+    <!-- Can't Find Location Modal -->
+    <div class="modal fade" id="cantFindModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content rounded shadow border-0">
+                <div class="modal-body p-4">
+                    <div class="container-fluid px-0">
+                        <div class="row align-items-center g-0">
+                            <div class="col-lg-12">
+                                <h4 class="text-center">
+                                    <strong>We can't find your location</strong>
+                                    <span class="float-end cursor-pointer" data-bs-dismiss="modal"><i data-feather="x" class="icons"></i></span>
+                                </h4>
+
+                                <p>First, try refreshing the page and tapping the location again.</p>
+                                <p>Make sure you click <strong>"Allow"</strong> or <strong>"Grant Permissions"</strong> if your browser asks for your location. You can always enter a ZIP code on the location screen.</p>
+
+                                <button type="button" class="btn btn-primary w-100 mt-5" data-bs-dismiss="modal">Got it!</button>
+                            </div>
+                        </div><!--end row-->
+                    </div><!--end container-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Can't Find Location Modal -->
+
+
 
     <!-- javascript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -246,11 +337,20 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script src="{{ asset('theme/js/jquery.fileuploader.min.js') }}"></script>
     {{-- <script src="http://www.google.com/jsapi"></script> --}}
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-2mhVoLX7oIOgRQ-6bxlJt4TF5k0xhWc&callback=initMap&libraries=places&v=weekly" async></script>
+    @if (Route::currentRouteName() == "post.ad" || Route::currentRouteName() == "user.listings.edit")
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSGmioE5YdinM_BR5MDEyB3E7qamhiDNw&callback=initMap&libraries=places&v=weekly" async defer></script>
+    @else
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBiMlDi4wWwmGpVcQqW09U1M68jI2OEfK0&callback=initMap&libraries=places&v=weekly" async defer></script>
+    @endif
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="{{ asset('admin/plugins/sweet-alert2/sweetalert2.min.js') }}"></script>
 
     <script>
+        let zipcode = '';
+        let postal_code = '';
+        function featherIcon() {
+            feather.replace();
+        }
         function accountsModalHandle(target) {
             $(".login-form").find("span.invalid-feedback").remove();
             $(".login-form").find(".form-control").removeClass('is-invalid');
@@ -269,29 +369,97 @@
             });
         }
 
+        function getListing() {
+            let lat = $("[name='current_lat']").val();
+            let lng = $("[name='current_lng']").val() ;
+            let rad = $("[name='radius']").val();
+
+            $.ajax({
+                type: "GET",
+                url: "{{ route('home') }}",
+                data: {
+                    lat: lat,
+                    lng: lng,
+                    rad: rad,
+                },
+                success: function (response) {
+                    if (response.statusCode == 200) {
+                        $('.listing-load').html(response.html);
+                        featherIcon();
+                    }
+                }
+            });
+        }
+
         // Current Location
+        function getZipCode(results) {
+            for(var i=0; i < results.length; i++){
+                for(var j=0;j < results[i].address_components.length; j++){
+                    for(var k=0; k < results[i].address_components[j].types.length; k++){
+                        if(results[i].address_components[j].types[k] == "postal_code"){
+                            zipcode = results[i].address_components[j].short_name;
+                        }
+                    }
+                }
+            }
+        }
 
         function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    let lat = position.coords.latitude;
-                    let long = position.coords.longitude;
+                    // let lat = position.coords.latitude;
+                    let lat = 46.4323632;
+                    // let long = position.coords.longitude;
+                    let long = -84.7032861;
 
                     var latlng = new google.maps.LatLng(lat, long);
                     var geocoder = new google.maps.Geocoder();
                     geocoder.geocode({'latLng': latlng}, function(results, status) {
                         if(status == google.maps.GeocoderStatus.OK) {
-                            console.log(results);
+                            getZipCode(results);
+                            getPostalCodeDetail(zipcode);
                         };
                     });
                 }, function() {
-                    alert('You did not allow us to share location.');
+                    var cantFindModal = new bootstrap.Modal(document.getElementById('cantFindModal'))
+                    cantFindModal.show()
                 });
             }
         }
 
+        function getPostalCodeDetail(code) {
+            var coder = new google.maps.Geocoder();
+            coder.geocode({'address': code, 'region': 'us'}, function(results, status) {
+                if(status == google.maps.GeocoderStatus.OK) {
+                    postal_code = results[0].formatted_address;
+                    zipcode = results[0].address_components[0].long_name;
+                    $(".header-location-name").html(postal_code);
+                    $(".code").html(postal_code);
+                    $("[name='postal_code']").val(zipcode);
+                    $(".postal-code-full").html(postal_code);
+                    $("[name='current_lat']").val(results[0].geometry.location.lat());
+                    $("[name='current_lng']").val(results[0].geometry.location.lng());
+                    checkZipInsertion();
+                    getListing();
+                } else {
+                    $(".postal-code-full").html("<small class='text-danger'>Please enter a valid US ZIP code.</small>");
+                }
+                console.log(results);
+            });
+        }
+
+        function checkZipInsertion() {
+            let val = $("[name='postal_code']").val();
+
+            if (val.length < 5) {
+                $(".apply-searching").prop('disabled', true);
+            } else {
+                $(".apply-searching").prop('disabled', false);
+            }
+        }
+
         $(document).ready(function () {
-            // getLocation();
+            getLocation();
         });
 
         // Login Form Event
@@ -423,6 +591,32 @@
 
             $(".navbar-search").submit();
         });
+
+        $(document).on("click", ".zip-code", function(e) {
+            $(".nearby-location").hide();
+            $(".zip-code-wrapper").show();
+        });
+
+        $(document).on("click", ".back-to-nearby", function(e) {
+            $(".zip-code-wrapper").hide();
+            $(".nearby-location").show();
+        });
+
+        $(document).on("keyup", "[name='postal_code']", function(e) {
+            checkZipInsertion();
+        });
+
+        $(document).on("click", ".apply-searching", function(e) {
+            let val = $("[name='postal_code']").val();
+            getPostalCodeDetail(val);
+        });
+
+        $(document).on("click", ".see-listing", function(e) {
+            getListing();
+        });
+
+
+
     </script>
     @yield('js')
 </body>

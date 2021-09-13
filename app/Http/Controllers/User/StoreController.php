@@ -16,6 +16,7 @@ class StoreController extends Controller
 {
     public function store()
     {
+        abort(404);
         $user = auth()->user();
         if (is_null($user->store)) {
             $store = Store::create([
@@ -45,6 +46,7 @@ class StoreController extends Controller
 
     public function storeLogo(Request $req)
     {
+        abort(404);
         $req->validate([
             'logo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
@@ -68,6 +70,7 @@ class StoreController extends Controller
 
     public function storeBanner(Request $req)
     {
+        abort(404);
         $req->validate([
             'banner' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
@@ -91,6 +94,7 @@ class StoreController extends Controller
 
     public function storeInformation(Request $req)
     {
+        abort(404);
         $req->validate([
             'name' => 'required',
             'slug' => 'required',
@@ -118,6 +122,7 @@ class StoreController extends Controller
 
     public function storeSchedule(Request $req)
     {
+        abort(404);
         $user = auth()->user();
         $store = $user->store;
 
@@ -146,6 +151,7 @@ class StoreController extends Controller
 
     public function storeSocial(Request $req)
     {
+        abort(404);
         $user = auth()->user();
         $store = $user->store;
 
@@ -161,6 +167,7 @@ class StoreController extends Controller
 
     public function storeLocation(Request $req)
     {
+        abort(404);
         $req->validate([
             'location' => 'required',
         ]);

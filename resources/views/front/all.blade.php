@@ -24,22 +24,6 @@
                             </ul>
                         </div>
                         <!-- Categories -->
-
-                        <!-- Top Products -->
-                        <div class="widget mt-4 pt-2">
-                            <h5 class="widget-title">Top Products</h5>
-                            <ul class="list-unstyled mt-4 mb-0">
-                                <li class="d-flex align-items-center">
-                                    <a href="javascript:void(0)">
-                                        <img src="images/shop/product/s1.jpg" class="img-fluid avatar avatar-small rounded shadow" style="height:auto;" alt="">
-                                    </a>
-                                    <div class="flex-1 content ms-3">
-                                        <a href="javascript:void(0)" class="text-dark h6">T-Shirt</a>
-                                        <h6 class="text-muted small fst-italic mb-0 mt-1">$18.00 <del class="text-danger ms-2">$22.00</del> </h6>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div><!--end col-->

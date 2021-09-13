@@ -20,16 +20,16 @@
                     </div>
                     <div class="people">
                         @foreach ($threads as $item)
-                        <div class="person" id="thread_{{ $item->id }}" data-chat="{{ $item->id }}">
+                        <div class="person" id="thread_{{ $item->id }}" data-user="{{ getOtherParticipant($item->id)->user->id }}" data-chat="{{ $item->id }}">
                             <div class="pending-pointer"></div>
                             <div class="user-info">
                                  <div class="f-head">
-                                     <img src="{{ asset(getOtherParticipant($item->id)->user->avatar) }}" alt="avatar">
+                                     <img src="{{ asset('default.png') }}" alt="avatar">
                                  </div>
                                  <div class="f-body">
                                      <div class="meta-info">
-                                         <span class="user-name" data-name="{{ getOtherParticipant($item->id)->user->name }}">{{ getOtherParticipant($item->id)->user->name }}</span>
-                                         <p>he</p>
+                                         <span class="user-name" data-name="Anonymous">Anonymous</span>
+                                         <p>Tap to chat</p>
                                          {{-- <span class="user-meta-time">dfdfdf</span> --}}
                                      </div>
                                  </div>
@@ -53,7 +53,11 @@
                         </div>
 
                         <div class="chat-conversation-box">
-                            <div id="chat-conversation-box-scroll" class="chat-conversation-box-scroll">
+                            <div id="chat-conversation-box-scroll" class="chat-conversation-box-scroll position-relative">
+                                <div class="chat-active-order">
+                                    <p>Active Orders:</p>
+                                    <div class="orders-list"></div>
+                                </div>
                                 <div class="chat" design-type="2" data-chat="1">
 
                                 </div>
@@ -81,6 +85,7 @@
 @section('js')
     <script>
         let thread_id = '';
+        let active_user_id = '';
         var prohibited = new Array("payment", "gmail", "email", "contact", "facebook", "whatsapp", "twitter", "linkedIn", "snapchat", "@");
     </script>
     <script src="{{ asset('theme/js/mailbox-chat.js') }}"></script>
@@ -119,8 +124,16 @@
         }
 
         var reloadConversation = function(){
-            $.get("{{ route('user.chat.get') }}?id="+thread_id, function(messages){
-                $('.chat').html(messages);
+            $.get("{{ route('user.chat.get') }}?id="+thread_id+"&active_user="+active_user_id, function(response){
+                $('.chat').html(response.messages);
+                console.log(response);
+                if (response.activeOrdersCount > 0) {
+                    $('.orders-list').html(response.activeOrders);
+                    $('.chat-active-order').show();
+                } else {
+                    $('.orders-list').html("");
+                    $('.chat-active-order').hide();
+                }
                 scroll_bottom();
             });
         }
@@ -129,9 +142,11 @@
             if ($(this).hasClass('.active')) {
                 return false;
             } else {
+                active_user_id = $(this).attr('data-user');
                 thread_id = $(this).attr('data-chat');
                 // thread_id = thread_id.toString();
                 thread_id = parseInt(thread_id);
+                active_user_id = parseInt(active_user_id);
                 $(this).find('.pending-pointer').html('');
                 var personName = $(this).find('.user-name').text();
                 var personImage = $(this).find('img').attr('src');
@@ -226,6 +241,12 @@
             } else {
                 return false;
             }
+        }
+
+        let searchParams = new URLSearchParams(window.location.search)
+        if (searchParams.has('active')) {
+            let active = searchParams.get('active');
+            $("[data-user='"+active+"']").click();
         }
     </script>
 @endsection

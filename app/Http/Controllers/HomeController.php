@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\EmailNotification;
 use App\Notifications\UserNotification;
 use App\Models\StoreSchedule;
 use Illuminate\Http\Request;
@@ -30,20 +31,37 @@ class HomeController extends Controller
 {
     public function home(Request $req)
     {
-        if (auth()->check()) {
-            $user = auth()->user();
+        if ($req->ajax()) {
+            $lat = $req->lat;
+            $lng = $req->lng;
+            $rad = $req->rad;
 
-            $listings = Listing::where('status', '2')
-                ->where('user_id', '!=', $user->id)
-                ->with('listing_images', 'category')
-                ->orderBy('created_at', 'DESC')->get();
+            if (auth()->check()) {
+                $user = auth()->user();
+
+                $listings = Listing::selectRaw("*, ( 3956 * acos( cos( radians(?) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians(?) ) + sin( radians(?) ) * sin( radians( location_lat ) ) ) ) AS distance", [$lat, $lng, $lat])
+                    ->where('status', '2')
+                    ->where('availablity', '1')
+                    ->where('user_id', '!=', $user->id)
+                    ->having("distance", "<", $rad)
+                    ->with('listing_images', 'category')
+                    ->orderBy('created_at', 'DESC')->get();
+            } else {
+                $listings = Listing::selectRaw("*, ( 3956 * acos( cos( radians(?) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians(?) ) + sin( radians(?) ) * sin( radians( location_lat ) ) ) ) AS distance", [$lat, $lng, $lat])
+                    ->where('status', '2')
+                    ->where('availablity', '1')
+                    ->having("distance", "<", $rad)
+                    ->with('listing_images', 'category')
+                    ->orderBy('created_at', 'DESC')->get();
+            }
+
+            return response()->json([
+                'statusCode' => 200,
+                'html' => view('ajax.listings', get_defined_vars())->render(),
+            ]);
         } else {
-            $listings = Listing::where('status', '2')
-                ->with('listing_images', 'category')
-                ->orderBy('created_at', 'DESC')->get();
+            return view('front.home', get_defined_vars());
         }
-
-        return view('front.home', get_defined_vars());
     }
 
     public function blog($slug = null)
@@ -141,6 +159,7 @@ class HomeController extends Controller
     {
         $cats = Category::where('status', true)->orderBy('name', 'ASC')->get();
         $listings = Listing::where('status', '2')
+            ->where('availablity', '1')
             ->with('listing_images', 'category');
 
         if (isset($req->category)) {
@@ -191,7 +210,23 @@ class HomeController extends Controller
             'location' => 'required',
         ]);
 
-        $user = auth()->user();
+        if (auth()->check()) {
+            $user = auth()->user();
+        } else {
+            $pass = Str::random(8);
+
+            $user = User::where('email', $req->email)->first();
+
+            if (is_null($user)) {
+                $user = User::create([
+                    'name' => $req->name,
+                    'email' => $req->email,
+                    'phone' => $req->phone,
+                    'password' => bcrypt($pass),
+                ]);
+            }
+        }
+
 
         if (is_null($id)) {
             $req->validate([
@@ -218,36 +253,48 @@ class HomeController extends Controller
         $listing->save();
 
         if ($listing) {
-            for ($i=0; $i < count($req->images) ; $i++) {
-                $listing_img = new ListingImage();
-                $listing_img->listing_id = $listing->id;
+            if (isset($req->images)) {
+                for ($i=0; $i < count($req->images) ; $i++) {
+                    $listing_img = new ListingImage();
+                    $listing_img->listing_id = $listing->id;
 
-                $image_f = $req->images[$i];
-                $path_f = "listings/".Str::slug($req->title);
-                $filename_f = 'full-'.Str::random(8).'.'.$image_f->getClientOriginalExtension();
+                    $image_f = $req->images[$i];
+                    $path_f = "listings/".Str::slug($req->title);
+                    $filename_f = 'full-'.Str::random(8).'.'.$image_f->getClientOriginalExtension();
 
-                $image_f->move($path_f,$filename_f);
-                Image::make(public_path($path_f.'/'.$filename_f))->resize(600,800)->save(public_path($path_f.'/'.$filename_f));
+                    $image_f->move($path_f,$filename_f);
+                    Image::make(public_path($path_f.'/'.$filename_f))->resize(600,800)->save(public_path($path_f.'/'.$filename_f));
 
-                $listing_img->path = $path_f.'/'.$filename_f;
-                $listing_img->save();
-            }
+                    $listing_img->path = $path_f.'/'.$filename_f;
+                    $listing_img->save();
+                }
 
-            if (count($listing->listing_images) == 0 && count($req->images) > 0) {
+                if (is_null($id) && count($req->images) > 0) {
 
-                $image = $listing->listing_images[0];
-                $listing = Listing::find($listing->id);
-                $path = "listings/".Str::slug($req->title);
-                $filename = 'featured-'.Str::random(8).'.'.$req->images[0]->getClientOriginalExtension();
+                    $image = $listing->listing_images[0];
+                    $listing = Listing::find($listing->id);
+                    $path = "listings/".Str::slug($req->title);
+                    $filename = 'featured-'.Str::random(8).'.'.$req->images[0]->getClientOriginalExtension();
 
-                Image::make(public_path($image->path))->resize(250,250)->save(public_path($path.'/'.$filename));
+                    Image::make(public_path($image->path))->resize(250,250)->save(public_path($path.'/'.$filename));
 
-                $listing->featured_image = $path.'/'.$filename;
-                $listing->save();
+                    $listing->featured_image = $path.'/'.$filename;
+                    $listing->save();
+                }
             }
         }
 
-        return redirect()->route('user.dashboard');
+        if (is_null($id)) {
+            return redirect()->route('thankyou');
+        } else {
+            return redirect()->route('user.dashboard');
+        }
+
+    }
+
+    public function thankyou(Request $req)
+    {
+        return view('front.thankyou', get_defined_vars());
     }
 
     public function deleteListingImage(Request $req)
@@ -330,6 +377,11 @@ class HomeController extends Controller
 
         if ($added) {
             $cart = $user->cart;
+
+            $listing = Listing::find($id);
+            $listing->availablity = '2';
+            $listing->save();
+
             return response()->json([
                 'statusCode' => 200,
                 'html' => view('ajax.cart', get_defined_vars())->render(),
@@ -418,8 +470,17 @@ class HomeController extends Controller
                                 'body' => 'You have got new order request on your product. Click to see',
                                 'action' => route('user.order', $order->order_no),
                             ]);
+
                             $notif = User::find($order->listing->user->id);
                             $notif->notify(new UserNotification($data));
+
+                            $email_data = [
+                                "subject" => "Good news: You've received an order request",
+                                "view" => "user.order_received",
+                                "order" => $order,
+                                "user" => $notif,
+                            ];
+                            $notif->notify(new EmailNotification($email_data));
                         }
                     }
                 }

@@ -23,12 +23,16 @@ Route::get('/all', 'HomeController@all')->name('all');
 Route::get('/listing/{slug?}', 'HomeController@listing')->name('listing');
 Route::get('/store/{slug?}', 'HomeController@store')->name('store');
 
+
+Route::get('/post-ad', 'HomeController@postAd')->name('post.ad');
+Route::post('/post-ad-save/{id?}', 'HomeController@postAdSave')->name('post.ad.save');
+Route::get('/thankyou', 'HomeController@thankyou')->name('thankyou');
+
+
 Route::get('/admin/login', 'Auth\AuthenticatedSessionController@adminLogin')->name('admin.login');
 
 // Auth Routes
 Route::middleware('auth')->group(function() {
-    Route::get('/post-ad', 'HomeController@postAd')->name('post.ad');
-    Route::post('/post-ad-save/{id?}', 'HomeController@postAdSave')->name('post.ad.save');
     Route::post('/delete-listing-image/{id?}', 'HomeController@deleteListingImage')->name('delete.listing.image');
     Route::get('/add-to-fav/{id?}', 'HomeController@addToFav')->name('add.fav');
     Route::get('/remove-fav/{id?}', 'HomeController@removeFav')->name('remove.fav');

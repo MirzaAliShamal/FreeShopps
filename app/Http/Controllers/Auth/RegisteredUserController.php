@@ -50,6 +50,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+        $user->sendEmailVerificationNotification();
 
         $data = collect([
             'icon' => asset('bell-icon.jpg'),

@@ -43,6 +43,11 @@ class OrderController extends Controller
 
         } else if ($status == "decline") {
             $order->status = '3';
+
+            $listing = $order->listing;
+            $listing->availablity = "1";
+            $listing->save();
+
             $msg = "Order Cancelled";
 
             $data = collect([

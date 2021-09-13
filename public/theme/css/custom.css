@@ -238,6 +238,54 @@
     left: 25%;
 }
 
+.zip-code-area {
+    padding: 4rem 1.5rem;
+}
+
+.distance-area {
+    padding: 1rem 1.5rem;
+}
+
+.zip-code-area .zip-code {
+    cursor: pointer;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid #eee;
+}
+
+.zip-code-area p,
+.distance-area p {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.zip-code-area span {
+    font-size: 16px;
+}
+
+.chat-active-order {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    padding: 0.3rem 0.5rem;
+    z-index: 99;
+}
+
+.chat-active-order p {
+    margin-bottom: 0px;
+    font-weight: 700;
+}
+
+.chat-active-order ol {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.chat-active-order ol li {
+    font-size: 12px;
+}
 
 .warning-message {
     display: none;

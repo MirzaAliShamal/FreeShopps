@@ -16,13 +16,6 @@
             </li>
 
             <li class="navbar-item account-menu px-0 mt-2">
-                <a href="{{ route('user.store') }}" class="navbar-link d-flex rounded shadow align-items-center py-2 px-4">
-                    <span class="h4 mb-0"><i class="uil uil-file"></i></span>
-                    <h6 class="mb-0 ms-2">Store</h6>
-                </a>
-            </li>
-
-            <li class="navbar-item account-menu px-0 mt-2">
                 <a href="{{ route('user.favourite') }}" class="navbar-link d-flex rounded shadow align-items-center py-2 px-4">
                     <span class="h4 mb-0"><i class="uil uil-envelope-star"></i></span>
                     <h6 class="mb-0 ms-2">Favourites</h6>

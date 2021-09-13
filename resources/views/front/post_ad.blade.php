@@ -93,8 +93,25 @@
                                         @enderror
                                     </div>
                                     <div class="form-group mb-3">
+                                        <label for="name" class="form-label">Name</label>
+                                        @if (auth()->check())
+                                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', auth()->user()->name) }}" placeholder="Name" autocomplete="off">
+                                        @else
+                                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Name" autocomplete="off">
+                                        @endif
+                                        @error('name')
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group mb-3">
                                         <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', auth()->user()->email) }}" placeholder="Email" autocomplete="off">
+                                        @if (auth()->check())
+                                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', auth()->user()->email) }}" placeholder="Email" autocomplete="off">
+                                        @else
+                                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" placeholder="Email" autocomplete="off">
+                                        @endif
                                         @error('email')
                                             <span class="invalid-feedback">
                                                 <strong>{{ $message }}</strong>
@@ -175,10 +192,10 @@
             });
             const input = document.getElementById("location");
             const options = {
-                // componentRestrictions: { country: "us" },
-                fields: ["formatted_address", "geometry", "name"],
-                strictBounds: false,
-                types: ["establishment"],
+                componentRestrictions: { country: "us" },
+                // fields: ["formatted_address", "geometry", "name"],
+                // strictBounds: false,
+                types: ["geocode"],
             };
             const autocomplete = new google.maps.places.Autocomplete(input, options);
             // Bind the map's bounds (viewport) property to the autocomplete object,
@@ -196,7 +213,7 @@
                 infowindow.close();
                 marker.setVisible(false);
                 const place = autocomplete.getPlace();
-                console.log(place.geometry.location.lat());
+                console.log(place);
 
                 if (!place.geometry || !place.geometry.location) {
                     // User entered the name of a Place that was not suggested and

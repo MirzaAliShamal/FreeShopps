@@ -48,7 +48,7 @@
 
 @if (count($orders_placed) > 0 || count($orders_receive) > 0)
     @if (count($orders_placed) > 0)
-    <div class="border-bottom pb-4">
+    <div class="border-bottom pb-4 mb-4">
         <h5>Active Orders Placed</h5>
 
         @foreach ($orders_placed as $item)
@@ -63,7 +63,7 @@
                     <h4 class="title mb-0">#{{ $item->order_no }}</h4>
                 </div>
                 <div class="flex-3 content ms-3">
-                    <a href="" class="btn btn-primary btn-sm"><i data-feather="message-circle" class="fea icon-sm icons"></i> Message</a>
+                    <a href="{{ route('user.chat') }}?active={{ $item->listing->user->id }}" class="btn btn-primary btn-sm"><i data-feather="message-circle" class="fea icon-sm icons"></i> Message</a>
                 </div>
             </div>
         @endforeach
@@ -71,7 +71,7 @@
     @endif
 
     @if (count($orders_receive) > 0)
-    <div class="border-bottom pb-4">
+    <div class="border-bottom pb-4 mb-4">
         <h5>Active Orders Received</h5>
 
         @foreach ($orders_receive as $item)
@@ -86,7 +86,7 @@
                     <h4 class="title mb-0">#{{ $item->order_no }}</h4>
                 </div>
                 <div class="flex-3 content ms-3">
-                    <a href="" class="btn btn-primary btn-sm"><i data-feather="message-circle" class="fea icon-sm icons"></i> Message</a>
+                    <a href="{{ route('user.chat') }}?active={{ $item->transaction->user->id }}" class="btn btn-primary btn-sm"><i data-feather="message-circle" class="fea icon-sm icons"></i> Message</a>
                     <a href="{{ route('user.order', $item->order_no) }}" class="btn btn-secondary btn-sm">View</a>
                 </div>
             </div>

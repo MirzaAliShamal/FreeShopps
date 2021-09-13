@@ -38,7 +38,7 @@
 
 @if ($order->status == "1")
 <div class="text-center mt-4">
-    <button type="button" onclick="alertMessage('{{ route('user.order.status', [$order->order_no, 'accept']) }}', 'You want to accept this order request!')" class="btn btn-primary">Accept</button>
+    <button type="button" onclick="alertMessage('{{ route('user.order.status', [$order->order_no, 'accept']) }}', 'You want to mark this request delivered!')" class="btn btn-primary">Mark as Delivered</button>
     <button type="button" onclick="alertMessage('{{ route('user.order.status', [$order->order_no, 'decline']) }}', 'You want to Decline this order request!')" class="btn btn-secondary">Decline</button>
 </div>
 @endif

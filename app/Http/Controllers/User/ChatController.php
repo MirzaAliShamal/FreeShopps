@@ -45,12 +45,19 @@ class ChatController extends Controller
 
     public function save(Request $req)
     {
+       //dd($req->all());
         $user = auth()->user();
 
         $message = new Message();
         $message->thread_id = $req->thread_id;
         $message->user_id = $user->id;
-        $message->body = $req->body;
+        if($req->file ){
+
+            $message->body = uploadFile($req->file, 'uploads/chats');
+        }else{
+
+            $message->body = $req->message;
+        }
         $message->type = 1;
         $message->save();
 

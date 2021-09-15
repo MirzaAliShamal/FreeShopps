@@ -101,6 +101,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.order.review') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>In Review</span>
+                        @if (countReviewOrders() > 0)
+                            <span class="flex-2 ml-auto badge badge-primary">{{ countReviewOrders() }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link d-flex" href="{{ route('admin.order.active') }}">
                         <span class="flex-1"><i class="ti-control-record"></i>Active</span>
                         @if (countActiveOrders() > 0)

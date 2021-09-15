@@ -38,7 +38,10 @@ class ListingController extends Controller
                 ->addColumn('availablity', function($row) {
                     if ($row->availablity == "1") {
                         $availablityCol = '<span class="badge badge-md badge-boxed badge-soft-success cursor-pointer">Available</span>';
-                    } else {
+                    } elseif($row->availablity == "3"){
+                        $availablityCol = '<span class="badge badge-md badge-boxed badge-soft-warning cursor-pointer">Booked</span>';
+                    }
+                    else {
                         $availablityCol = '<span class="badge badge-md badge-boxed badge-soft-danger cursor-pointer">Sold</span>';
                     }
                     return $availablityCol;

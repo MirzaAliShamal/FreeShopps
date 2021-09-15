@@ -77,6 +77,7 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->middleware('auth', '
         Route::get('/active', 'OrderController@active')->name('active');
         Route::get('/completed', 'OrderController@completed')->name('completed');
         Route::get('/cancelled', 'OrderController@cancelled')->name('cancelled');
+        Route::get('/review', 'OrderController@review')->name('review');
         Route::get('/delete/{id?}', 'OrderController@delete')->name('delete');
         Route::get('/status-change/{id?}/{status?}', 'OrderController@statusChange')->name('status.change');
     });
@@ -133,6 +134,7 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->middleware('auth', '
 Route::prefix('user')->name('user.')->namespace('User')->middleware('auth', 'user')->group(function() {
     Route::get('dashboard', 'DashboardController@dashboard')->name('dashboard');
     Route::get('favourites', 'DashboardController@favourite')->name('favourite');
+    Route::get('activity', 'DashboardController@activity')->name('activity');
 
     // My Listings
     Route::prefix('listings')->group(function() {

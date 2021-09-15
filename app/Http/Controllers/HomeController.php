@@ -17,6 +17,7 @@ use App\Models\BlogPost;
 use App\Models\Listing;
 use App\Models\BlogTag;
 use App\Models\Message;
+use App\Models\LogActivity;
 use App\Models\Thread;
 use App\Models\Store;
 use App\Models\Order;
@@ -35,6 +36,7 @@ class HomeController extends Controller
             $lat = $req->lat;
             $lng = $req->lng;
             $rad = $req->rad;
+            //dd($lng);
 
             if (auth()->check()) {
                 $user = auth()->user();
@@ -42,14 +44,16 @@ class HomeController extends Controller
                 $listings = Listing::selectRaw("*, ( 3956 * acos( cos( radians(?) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians(?) ) + sin( radians(?) ) * sin( radians( location_lat ) ) ) ) AS distance", [$lat, $lng, $lat])
                     ->where('status', '2')
                     ->where('availablity', '1')
+                    ->orWhere('availablity','3')
                     ->where('user_id', '!=', $user->id)
                     ->having("distance", "<", $rad)
                     ->with('listing_images', 'category')
                     ->orderBy('created_at', 'DESC')->get();
             } else {
-                $listings = Listing::selectRaw("*, ( 3956 * acos( cos( radians(?) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians(?) ) + sin( radians(?) ) * sin( radians( location_lat ) ) ) ) AS distance", [$lat, $lng, $lat])
+                $listings =Listing::selectRaw("*, ( 3956 * acos( cos( radians(?) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians(?) ) + sin( radians(?) ) * sin( radians( location_lat ) ) ) ) AS distance", [$lat, $lng, $lat])
                     ->where('status', '2')
                     ->where('availablity', '1')
+                    ->orWhere('availablity','3')
                     ->having("distance", "<", $rad)
                     ->with('listing_images', 'category')
                     ->orderBy('created_at', 'DESC')->get();
@@ -253,6 +257,14 @@ class HomeController extends Controller
         $listing->save();
 
         if ($listing) {
+
+            $log = new LogActivity();
+            $log->logable_type = 'App\Models\Listing';
+            $log->logable_id = $listing->id;
+            $log->narration = 'You added a new Listing';
+            $log->user_id = auth()->user()->id;
+            $log->save();
+
             if (isset($req->images)) {
                 for ($i=0; $i < count($req->images) ; $i++) {
                     $listing_img = new ListingImage();
@@ -328,6 +340,12 @@ class HomeController extends Controller
         ]);
 
         if ($fav) {
+            // $log = new LogActivity();
+            // $log->logable_type = 'App\Models\Favourite';
+            // $log->logable_id = $fav->id;
+            // $log->narration = 'Product is added to Favourites';
+            // $log->user_id = auth()->user()->id;
+            // $log->save();
             return response()->json([
                 'statusCode' => 200,
                 'message' => 'Added To Favourites',
@@ -379,9 +397,16 @@ class HomeController extends Controller
             $cart = $user->cart;
 
             $listing = Listing::find($id);
-            $listing->availablity = '2';
+            $listing->availablity = '3';
             $listing->save();
 
+            // $log = new LogActivity();
+            // $log->logable_type = 'App\Models\Cart';
+            // $log->logable_id = $added->id;
+            // $log->narration = 'Product is added to cart';
+            // $log->user_id = auth()->user()->id;
+            // $log->save();
+            //dd($log);
             return response()->json([
                 'statusCode' => 200,
                 'html' => view('ajax.cart', get_defined_vars())->render(),
@@ -398,7 +423,19 @@ class HomeController extends Controller
     {
         $user = auth()->user();
 
-        Cart::find($id)->delete();
+        $cart = Cart::find($id);
+        $listing = $cart->listing;
+        $listing->availablity = '1';
+        $listing->save();
+
+        // $log = new LogActivity();
+        // $log->logable_type = 'App\Models\Listing';
+        // $log->logable_id = $listing->id;
+        // $log->narration = 'Product is removed from cart';
+        // $log->user_id = auth()->user()->id;
+        // $log->save();
+
+        $cart->delete();
 
         return redirect()->back()->with('success', 'Removed from Cart');
     }
@@ -444,7 +481,18 @@ class HomeController extends Controller
                             'listing_id' => $item->listing_id,
                             'amount' => 1,
                         ]);
+                        if($order){
+                            $listing = Listing::find($item->listing_id);
+                            $listing->availablity = '3';
+                            $listing->save();
 
+                            $log = new LogActivity();
+                            $log->logable_type = 'App\Models\Order';
+                            $log->logable_id = $order->id;
+                            $log->narration = 'You Placed an order';
+                            $log->user_id = auth()->user()->id;
+                            $log->save();
+                        }
                         if ($order) {
                             $user->cart()->delete();
 
@@ -481,6 +529,24 @@ class HomeController extends Controller
                                 "user" => $notif,
                             ];
                             $notif->notify(new EmailNotification($email_data));
+
+                            $notif = User::find(auth()->user()->id);
+                            $email_data = [
+                                "subject" => "Good news: This Item has been booked for 72 hours, after that You have to make a new booking and the amount will not be refunded. Thanks",
+                                "view" => "user.order_received",
+                                "order" => $order,
+                                "user" => $notif,
+                            ];
+                            $notif->notify(new EmailNotification($email_data));
+
+                            $data = collect([
+                                'icon' => asset('bell-icon.jpg'),
+                                'title' => 'New Order!',
+                                'body' => 'A new Order has been  placed !. Click to see',
+                                'action' => route('admin.order.review'),
+                            ]);
+                            $notif = User::where('role', '2')->first();
+                            $notif->notify(new UserNotification($data));
                         }
                     }
                 }

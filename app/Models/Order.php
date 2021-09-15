@@ -24,4 +24,9 @@ class Order extends Model
     public function listing() {
         return $this->belongsTo('App\Models\Listing');
     }
+
+    public function logable()
+    {
+        return $this->morphMany('App\Models\LogActivity', 'logable');
+    }
 }

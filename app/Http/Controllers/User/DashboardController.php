@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Listing;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\LogActivity;
 use Carbon\Carbon;
 
 
@@ -15,7 +16,10 @@ class DashboardController extends Controller
     public function dashboard()
     {
         $user = auth()->user();
-        $orders_placed = Order::where('status', '1')->whereHas('transaction', function($first) use($user) {
+        $orders_placed = Order::where(function($q) {
+            $q->orWhere('status', '1');
+            $q->orWhere('status', '4');
+        })->whereHas('transaction', function($first) use($user) {
             $first->whereHas('user', function($second) use($user) {
                 $second->where('id', $user->id);
             });
@@ -41,5 +45,13 @@ class DashboardController extends Controller
         $favourites = $user->favourites;
 
         return view('user.favourite', get_defined_vars());
+    }
+
+    public function activity()
+    {
+        $list = LogActivity::where('user_id',auth()->user()->id)->with('logable')->paginate(10);
+        //dd($list);
+
+        return view('user.activity',get_defined_vars());
     }
 }

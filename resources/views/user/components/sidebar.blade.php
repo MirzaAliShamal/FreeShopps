@@ -35,6 +35,12 @@
                     <h6 class="mb-0 ms-2">Account Settings</h6>
                 </a>
             </li>
+            <li class="navbar-item account-menu px-0 mt-2">
+                <a href="{{ route('user.activity') }}" class="navbar-link d-flex rounded shadow align-items-center py-2 px-4">
+                    <span class="h4 mb-0"><i class="uil uil-setting"></i></span>
+                    <h6 class="mb-0 ms-2">Recent Activities</h6>
+                </a>
+            </li>
 
             <li class="navbar-item account-menu px-0 mt-2">
                 <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="navbar-link d-flex rounded shadow align-items-center py-2 px-4">

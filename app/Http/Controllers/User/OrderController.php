@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Notifications\UserNotification;
+use App\Notifications\EmailNotification;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
@@ -40,6 +41,15 @@ class OrderController extends Controller
             ]);
             $notif = User::find($order->transaction->user->id);
             $notif->notify(new UserNotification($data));
+
+            $email_data = [
+                "subject" => "Congratulations! We hope you are happy to have your gift",
+                "view" => "user.order_received",
+                "order" => $order,
+                "user" => $notif,
+            ];
+            $notif->notify(new EmailNotification($email_data));
+
 
         } else if ($status == "decline") {
             $order->status = '3';

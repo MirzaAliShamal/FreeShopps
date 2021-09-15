@@ -38,4 +38,8 @@ class Listing extends Model
     public function listing_images() {
         return $this->hasMany('App\Models\ListingImage');
     }
+    public function logable()
+    {
+        return $this->morphMany('App\Models\LogActivity', 'logable');
+    }
 }

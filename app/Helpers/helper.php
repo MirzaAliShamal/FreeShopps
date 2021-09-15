@@ -218,6 +218,9 @@ function countHiddenBlogComments() {
 function countAllOrders() {
     return Order::count();
 }
+function countReviewOrders() {
+    return Order::where('status', '4')->count();
+}
 
 function countActiveOrders() {
     return Order::where('status', '1')->count();
@@ -241,4 +244,9 @@ function countActiveStores() {
 
 function countDisabledStores() {
     return Order::whereStatus(false)->count();
+}
+function uploadFile($file, $path){
+    $name = time().'-'.str_replace(' ', '-', $file->getClientOriginalName());
+    $file->move($path,$name);
+    return $path.'/'.$name;
 }

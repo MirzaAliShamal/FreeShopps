@@ -32,10 +32,11 @@
 
                     <h5 class="mt-4 py-2">Description :</h5>
                     {!! $listing->description !!}
-
-                    <div class="mt-4 pt-2">
-                        <a href="shop-cart.html" class="btn btn-soft-primary ms-2">Add to Cart</a>
-                    </div>
+                    @if($listing->availablity == '1')
+                        <div class="mt-4 pt-2">
+                            <a  class="btn btn-soft-primary ms-2 addCart" data-id="{{ $listing->id }}">Add to Cart</a>
+                        </div>
+                    @endif
                 </div>
             </div><!--end col-->
         </div><!--end row-->

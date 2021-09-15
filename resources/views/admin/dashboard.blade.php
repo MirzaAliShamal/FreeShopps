@@ -80,14 +80,14 @@
                                 <div class="col-8">
                                     <p class="text-dark font-weight-semibold font-14">Active Orders</p>
                                     <h3 class="my-3">{{ $total_orders }}</h3>
-                                    <p class="mb-0 text-truncate">
+                                    {{-- <p class="mb-0 text-truncate">
                                         @if (newOrdersToday()['dir'] == "up")
                                             <span class="text-success"><i class="mdi mdi-trending-up"></i>{{ newOrdersToday()['fig'] }}%</span>
                                         @else
                                             <span class="text-danger"><i class="mdi mdi-trending-down"></i>{{ newOrdersToday()['fig'] }}%</span>
                                         @endif
                                         New Orders Today
-                                    </p>
+                                    </p> --}}
                                 </div>
                                 <div class="col-4 align-self-center">
                                     <div class="report-main-icon bg-light-alt">

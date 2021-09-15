@@ -4,6 +4,11 @@
 
 @section('css')
     <link href="{{ asset('theme/css/mailing-chat.css') }}" rel="stylesheet">
+    <style>
+        label {
+            display: block;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -68,9 +73,12 @@
                         </div>
                         <div class="chat-footer shadow">
                             <div class="chat-input">
-                                <form class="chat-form" method="POST">
-                                    <i data-feather="message-square" class="fea icon-sm icons"></i>
-                                    <input type="text" class="mail-write-box form-control" name="message" placeholder="Message" autocomplete="off">
+                                <form class="chat-form" method="POST" enctype="multipart/form-data">
+                                    <div>
+                                        <label for="file"><i data-feather="file-plus" class="fea icon-sm icons"></i></label>
+                                        <input type="file" name="file" id="file" hidden>
+                                        <input type="text" class="mail-write-box form-control" name="message" placeholder="Message" autocomplete="off">
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -194,8 +202,11 @@
 
         $("form.chat-form").submit(function(e) {
             e.preventDefault();
+            var formData = new FormData(this);
+            formData.append('thread_id', thread_id);
             var me = $(this),
             message = me.find('[name=message]');
+            //console.log(formData);
 
             // if the value of chat_content is empty
 
@@ -204,11 +215,10 @@
             } else { // if the chat_content value is not empty
                 $.ajax({
                     url: '{{ route("user.chat.save") }}',
-                    data: {
-                        body: message.val().trim(),
-                        thread_id: thread_id
-                    },
+                    data:formData,
                     method: 'post',
+                    processData: false,
+                    contentType: false,
                     headers: {
                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
                     },
@@ -222,6 +232,7 @@
                         message.val('');
                         message.focus();
                         scroll_bottom();
+                        $('#file').val('');
                     }
                 });
             }

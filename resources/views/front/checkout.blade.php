@@ -27,6 +27,57 @@
 
 @include('front.components.pages_banner')
 <!-- Start -->
+<div class="modal fade" id="detailModal" tabindex="-1"  role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailModalLabel">Blog Detail</h5>
+                    <span type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </span>
+                </div>
+
+                <div class="modal-body blog-details">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive bg-white shadow">
+                                <table class="table table-center table-padding mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-bottom py-3" style="min-width:20px "></th>
+                                            <th class="border-bottom py-3" style="min-width: 300px;">Product</th>
+                                            <th class="border-bottom text-center py-3" style="min-width: 160px;">Processing Fee</th>
+                                            <th class="border-bottom text-center py-3" style="min-width: 160px;">Total</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach ($cart as $item)
+                                            <tr class="shop-list">
+                                                <td class="h6"><a href="{{ route('remove.cart', $item->id) }})" class="text-danger">X</a></td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="{{ asset($item->listing->featured_image) }}" class="img-fluid avatar avatar-small rounded shadow" style="height:auto;" alt="">
+                                                        <h6 class="mb-0 ms-3">{{ $item->listing->title }}</h6>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">$1</td>
+                                                <td class="text-center fw-bold">$1</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><!--end col-->
+                    </div><!--end row-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+    </div>
+</div>
 <section class="section">
     <div class="container">
         <div class="row justify-content-center">
@@ -34,7 +85,8 @@
                 <div class="rounded shadow-lg p-4 sticky-bar">
                     <div class="d-flex mb-4 justify-content-between">
                         <h5>{{ count($cart) }} Items</h5>
-                        <a href="{{ route('cart') }}" class="text-muted h6">Show Details</a>
+                        <a class="text-muted h6" style="cursor: pointer" onclick="$('#detailModal').modal('show')">Show Details</a>
+                        {{--   <a href="{{ route('cart') }}" class="text-muted h6">Show Details</a> --}}
                     </div>
                     <div class="table-responsive">
                         <table class="table table-center table-padding mb-3">

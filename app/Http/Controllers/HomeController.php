@@ -257,7 +257,6 @@ class HomeController extends Controller
         $listing->save();
 
         if ($listing) {
-
             $log = new LogActivity();
             $log->logable_type = 'App\Models\Listing';
             $log->logable_id = $listing->id;
@@ -532,8 +531,8 @@ class HomeController extends Controller
 
                             $notif = User::find(auth()->user()->id);
                             $email_data = [
-                                "subject" => "Good news: This Item has been booked for 72 hours, after that You have to make a new booking and the amount will not be refunded. Thanks",
-                                "view" => "user.order_received",
+                                "subject" => "Good news: Your order has been placed",
+                                "view" => "user.order_placed",
                                 "order" => $order,
                                 "user" => $notif,
                             ];

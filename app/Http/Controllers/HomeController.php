@@ -43,8 +43,10 @@ class HomeController extends Controller
 
                 $listings = Listing::selectRaw("*, ( 3956 * acos( cos( radians(?) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians(?) ) + sin( radians(?) ) * sin( radians( location_lat ) ) ) ) AS distance", [$lat, $lng, $lat])
                     ->where('status', '2')
-                    ->where('availablity', '1')
-                    ->orWhere('availablity','3')
+                    ->where(function($q) {
+                        $q->orWhere('availablity', '1');
+                        $q->orWhere('availablity','3');
+                    })
                     ->where('user_id', '!=', $user->id)
                     ->having("distance", "<", $rad)
                     ->with('listing_images', 'category')
@@ -52,8 +54,10 @@ class HomeController extends Controller
             } else {
                 $listings =Listing::selectRaw("*, ( 3956 * acos( cos( radians(?) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians(?) ) + sin( radians(?) ) * sin( radians( location_lat ) ) ) ) AS distance", [$lat, $lng, $lat])
                     ->where('status', '2')
-                    ->where('availablity', '1')
-                    ->orWhere('availablity','3')
+                    ->where(function($q) {
+                        $q->orWhere('availablity', '1');
+                        $q->orWhere('availablity','3');
+                    })
                     ->having("distance", "<", $rad)
                     ->with('listing_images', 'category')
                     ->orderBy('created_at', 'DESC')->get();

@@ -30,6 +30,8 @@ class User extends Authenticatable
         'location_lat',
         'location_long',
         'fcm_token',
+        'provider',
+        'provider_id',
     ];
 
     /**

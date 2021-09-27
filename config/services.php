@@ -40,4 +40,15 @@ return [
         'messaging_sender_id' => '832326338339'
     ],
 
+    'google' => [
+        'client_id' => '47334395090-8qp9ab9aqoqtvgdstndhtr80mu7fiai6.apps.googleusercontent.com',
+        'client_secret' => 'm13zqxN07cD2uf541uoVNhmk',
+        'redirect' => 'http://127.0.0.1:8000/social-login/google/callback',
+    ],
+    'facebook' => [
+        'client_id'     => '1271446329969414',
+        'client_secret' => '051b3d879a62f22270640890d2cc617f',
+        'redirect'      => 'https://freeshopps.com/social-login/facebook/callback',
+    ],
+
 ];

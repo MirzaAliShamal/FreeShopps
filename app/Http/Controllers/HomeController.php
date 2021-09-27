@@ -18,6 +18,7 @@ use App\Models\Listing;
 use App\Models\BlogTag;
 use App\Models\Message;
 use App\Models\LogActivity;
+use App\Models\VideoGallery;
 use App\Models\Thread;
 use App\Models\Store;
 use App\Models\Order;
@@ -72,6 +73,65 @@ class HomeController extends Controller
         }
     }
 
+    public function privacyPolicy()
+    {
+        return view('front.privacy_policy', get_defined_vars());
+    }
+
+    public function serviceTerm()
+    {
+        return view('front.services_term', get_defined_vars());
+    }
+
+    public function termAndTermination()
+    {
+        return view('front.term_and_termination', get_defined_vars());
+    }
+
+    public function faq()
+    {
+        return view('front.faq', get_defined_vars());
+    }
+
+    public function community()
+    {
+        return view('front.community', get_defined_vars());
+    }
+
+    public function communityGuideline()
+    {
+        return view('front.community_guideline', get_defined_vars());
+    }
+
+    public function aboutUs()
+    {
+        return view('front.about_us', get_defined_vars());
+    }
+
+    public function somethingNew()
+    {
+        return view('front.something_new', get_defined_vars());
+    }
+
+    public function whatWeAreUpto()
+    {
+        return view('front.what_we_are_upto', get_defined_vars());
+    }
+
+    public function joinWithUs()
+    {
+        return view('front.join_with_us', get_defined_vars());
+    }
+
+    public function whyShoppsFree()
+    {
+        return view('front.why_shopps_free', get_defined_vars());
+    }
+
+    public function ourGoal()
+    {
+        return view('front.our_goal', get_defined_vars());
+    }
     public function blog($slug = null)
     {
         $categories = BlogCategory::withCount('blog_posts')->orderBy('name', 'ASC')->get();
@@ -609,5 +669,12 @@ class HomeController extends Controller
         $notification->save();
 
         return response()->noContent();
+    }
+
+    public function gallery()
+    {
+        $list = VideoGallery::all();
+        // $list = VideoGallery::sortBy('id','DESC')->get();
+        return view('front.gallery',get_defined_vars());
     }
 }

@@ -23,7 +23,7 @@
             </div><!--end media-body-->
         </div>
     </div>
-    <ul class="metismenu left-sidenav-menu ">
+    <ul class="metismenu scroll left-sidenav-menu ">
         <li class="menu-label">Main</li>
         <li class="leftbar-menu-item @routeis('admin.dashboard') mm-active @endrouteis">
             <a href="{{ route('admin.dashboard') }}" class="menu-link">
@@ -170,7 +170,54 @@
                 </li>
             </ul>
         </li>
+        <li class="leftbar-menu-item @routeis('admin.setting.*') mm-active @endrouteis">
+            <a href="javascript: void(0);" class="menu-link">
+                <i data-feather="list" class="align-self-center vertical-menu-icon icon-dual-vertical"></i>
+                <span>CMS</span>
+                <span class="menu-arrow">
+                    <i class="mdi mdi-chevron-right"></i>
+                </span>
+            </a>
+            <ul class="nav-second-level" aria-expanded="false">
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.settings.general') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>General </span>
 
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.settings.home') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.settings.social') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Socila Links</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.settings.about_us') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>About us</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.settings.privacy') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Privacy Policy</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.settings.terms') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Terms of Services</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="leftbar-menu-item @routeis('admin.gallery.*') mm-active @endrouteis">
+            <a href="{{ route('admin.gallery.list') }}" class="menu-link">
+                <i data-feather="users" class="align-self-center vertical-menu-icon icon-dual-vertical"></i>
+                <span>Gallery</span>
+            </a>
+        </li>
         <li class="leftbar-menu-item @routeis('admin.user.all') mm-active @endrouteis">
             <a href="{{ route('admin.user.all') }}" class="menu-link">
                 <i data-feather="users" class="align-self-center vertical-menu-icon icon-dual-vertical"></i>
@@ -184,6 +231,7 @@
                 <span>Earnings</span>
             </a>
         </li>
+
 
         <li class="menu-label">Blogs</li>
         <li class="leftbar-menu-item @routeis('admin.blog.categories.*') mm-active @endrouteis">
@@ -285,6 +333,7 @@
                 </li>
             </ul>
         </li>
+        <div style="margin-bottom: 250px"></div>
     </ul>
 
 </div>

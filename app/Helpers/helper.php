@@ -10,6 +10,7 @@ use App\Models\Store;
 use App\Models\Order;
 use App\Models\Cart;
 use App\Models\User;
+use App\Models\Setting;
 use Carbon\Carbon;
 
 function getNavCat() {
@@ -249,4 +250,9 @@ function uploadFile($file, $path){
     $name = time().'-'.str_replace(' ', '-', $file->getClientOriginalName());
     $file->move($path,$name);
     return $path.'/'.$name;
+}
+function setting($key){
+    $setting = Setting::pluck('value', 'name');
+    //dd($setting);
+    return $setting[$key] ?? '';
 }

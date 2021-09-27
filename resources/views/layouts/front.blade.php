@@ -80,10 +80,10 @@
                                             <h3 class="text-center">Sign up / Log in</h3>
                                         </div>
                                         <div class="col-lg-12 mb-3">
-                                            <a href="" class="btn btn-primary facebook d-block"><i class="mdi mdi-facebook mdi-18px icons"></i> Continue with Facebook</a>
+                                            <a href="{{ route('social.login','facebook') }}" class="btn btn-primary facebook d-block"><i class="mdi mdi-facebook mdi-18px icons"></i> Continue with Facebook</a>
                                         </div><!--end col-->
                                         <div class="col-lg-12 mb-3">
-                                            <a href="" class="btn btn-primary google d-block"><i class="mdi mdi-google mdi-18px icons"></i> Continue with Google</a>
+                                            <a href="{{ route('social.login','google') }}" class="btn btn-primary google d-block"><i class="mdi mdi-google mdi-18px icons"></i> Continue with Google</a>
                                         </div><!--end col-->
                                         <div class="col-lg-12 mb-3">
                                             <button type="button" class="btn btn-primary d-block w-100" onclick="accountsModalHandle('.login')"><i class="mdi mdi-email mdi-18px icons"></i> Continue with Email</button>

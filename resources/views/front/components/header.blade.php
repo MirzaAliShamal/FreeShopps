@@ -19,7 +19,7 @@
             </div>
             <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-3 order-lg-2 order-2 px-1">
                 <a class="logo" href="{{ route('home') }}">
-                    <img src="{{ asset('logo.png') }}" height="60" alt="">
+                    <img src="{{ asset(setting('logo')) }}" height="60" alt="">
                 </a>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-12 order-lg-3 order-4 m-auto">
@@ -38,8 +38,8 @@
             <div class="col-xl-5 col-lg-5 col-md-10 col-sm-8 col-7 order-lg-5 order-3 m-auto">
                 <div class="top-nav text-end">
                     <ul>
-                        <li class="d-sm-inline-block d-none"><a href="">About</a></li>
-                        <li class="d-sm-inline-block d-none"><a href="">Terms of Service</a></li>
+                        <li class="d-sm-inline-block d-none"><a href="{{ route('about.us') }}">About</a></li>
+                        <li class="d-sm-inline-block d-none"><a href="{{ route('term.services') }}">Terms of Service</a></li>
                         @auth
                             @if (auth()->user()->role == "1")
                                 <li class="d-sm-inline-block d-none"><a href="{{ route('user.dashboard') }}">My Account</a></li>

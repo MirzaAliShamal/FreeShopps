@@ -70,6 +70,12 @@
                 right: 5%;
                 top: 50%;
             }
+            .scroll {
+                overflow-y: scroll;
+            }
+            .scroll::-webkit-scrollbar {
+                display: none;
+            }
         </style>
         @yield('css')
     </head>
@@ -137,6 +143,8 @@
         <script src="{{ asset('admin/plugins/tinymce/tinymce.min.js') }}"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6GhjR-WmiKCgr71McBioeymDd6_Ti_0s&callback=initMap&libraries=places&v=weekly" async></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.6.0/bootstrap-tagsinput.min.js"></script>
+        <!--  CKEditor Plugin    -->
+        <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
 
         <!-- App js -->
         <script src="{{ asset('admin/assets/js/app.js') }}"></script>
@@ -236,6 +244,7 @@
                     {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
                 ]
             });
+
         </script>
         @yield('js')
     </body>

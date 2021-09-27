@@ -8,7 +8,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-12 text-center">
                 <div class="page-next-level">
-                    <h3 class="title text-white"> Being a Good Neighbor is an Art </h3>
+                    <h3 class="title text-white"> {{ setting('slogan') }} </h3>
                 </div>
             </div>  <!--end col-->
         </div><!--end row-->
@@ -48,7 +48,7 @@
     <div class="container">
         <div class="row align-items-center m-auto">
             <div class="col-md-10 m-auto">
-                <img src="{{ asset('freeshopps-banner.png') }}" class="img-fluid w-100" alt="">
+                <img src="{{ asset(setting('home_image')) }}" class="img-fluid w-100" alt="">
             </div>
         </div>
     </div>
@@ -60,9 +60,9 @@
             <div class="col-lg-6">
                 <div class="title-heading text-center text-lg-start">
                     <h4 class="heading fw-bold mb-3 mt-3">Sharing is, <br> Better than, <br> Throwing away...</h4>
-                    <p class="para-desc text-muted mx-auto mx-lg-start mb-0">Launch your campaign and benefit from our expertise on designing and managing conversion centered bootstrap v5 html page.</p>
+                    <p class="para-desc text-muted mx-auto mx-lg-start mb-0">{{ setting('video_sec_text') }}</p>
                     <div class="mt-3">
-                        <a href="" class="btn btn-primary me-2 mt-2">+ Post you Ad</a>
+                        <a href="{{ route('post.ad') }}" class="btn btn-primary me-2 mt-2">+ Post you Ad</a>
                     </div>
                 </div>
             </div><!--end col-->
@@ -80,7 +80,7 @@
                     </div>
                     <div class="bg-light px-2 position-relative">
                         <video class="w-100 rounded" controls loop>
-                            <source src="{{ asset('freeshopps.mp4') }}" type="video/mp4">
+                            <source src="{{ asset(setting('home_video')) }}" type="video/mp4">
                         </video>
                     </div>
                 </div>

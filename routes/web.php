@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
 
+Route::get('/social-login/{provider?}', 'SocialController@socialLogin')->name('social.login');
+Route::get('/social-login/{provider?}/callback', 'SocialController@socialLoginCallback')->name('social.login.callback');
+
 Route::get('/', 'HomeController@home')->name('home');
 Route::get('/blog/{slug?}', 'HomeController@blog')->name('blog');
 Route::get('/category/{slug?}', 'HomeController@blogCategory')->name('blog.category');
@@ -22,6 +25,19 @@ Route::post('/post-comment/{id?}', 'HomeController@postComment')->name('post.com
 Route::get('/all', 'HomeController@all')->name('all');
 Route::get('/listing/{slug?}', 'HomeController@listing')->name('listing');
 Route::get('/store/{slug?}', 'HomeController@store')->name('store');
+Route::get('/privacy', 'HomeController@privacyPolicy')->name('privacy.policy');
+Route::get('/terms', 'HomeController@serviceTerm')->name('term.services');
+Route::get('/term-and-termination', 'HomeController@termAndTermination')->name('term.and.termination');
+Route::get('/faq', 'HomeController@faq')->name('faq');
+Route::get('/community', 'HomeController@community')->name('community');
+Route::get('/community-guidelines', 'HomeController@communityGuideline')->name('community.guideline');
+Route::get('/about-us', 'HomeController@aboutUs')->name('about.us');
+Route::get('/something-new', 'HomeController@somethingNew')->name('something.new');
+Route::get('/what-we-are-up-to', 'HomeController@whatWeAreUpto')->name('what.we.are.upto');
+Route::get('/join-with-us', 'HomeController@joinWithUs')->name('join.with.us');
+Route::get('/why-shopps-free', 'HomeController@whyShoppsFree')->name('why.shopps.free');
+Route::get('/our-goal', 'HomeController@ourGoal')->name('our.goal');
+Route::get('/gallery', 'HomeController@gallery')->name('gallery');
 
 
 Route::get('/post-ad', 'HomeController@postAd')->name('post.ad');
@@ -61,6 +77,24 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->middleware('auth', '
         Route::post('/save/{id?}', 'CategoryController@save')->name('save');
         Route::get('/delete/{id?}', 'CategoryController@delete')->name('delete');
         Route::get('/status-change/{id?}', 'CategoryController@statusChange')->name('status.change');
+    });
+
+    Route::prefix('settings')->name('settings.')->group(function() {
+        Route::get('/general', 'SettingController@general')->name('general');
+        Route::get('/home', 'SettingController@home')->name('home');
+        Route::get('/social', 'SettingController@social')->name('social');
+        Route::get('/about-us', 'SettingController@about_us')->name('about_us');
+        Route::get('/terms', 'SettingController@terms')->name('terms');
+        Route::get('/privacy', 'SettingController@privacy')->name('privacy');
+        Route::post('/save', 'SettingController@save')->name('save');
+    });
+    Route::prefix('gallery')->name('gallery.')->group(function() {
+        Route::get('/list', 'VideoController@list')->name('list');
+        Route::get('/add', 'VideoController@add')->name('add');
+        Route::get('/edit/{id?}', 'VideoController@edit')->name('edit');
+        Route::get('/delete{id?}', 'VideoController@delete')->name('delete');
+        Route::get('/status{id?}', 'VideoController@status')->name('status');
+        Route::post('/save/{id?}', 'VideoController@save')->name('save');
     });
 
     Route::prefix('listings')->name('listing.')->group(function() {

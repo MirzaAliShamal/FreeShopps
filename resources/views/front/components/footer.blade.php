@@ -14,7 +14,7 @@
                 <a href="#" class="logo-footer">
                     <img src="images/logo-dark.png" height="24" alt="">
                 </a>
-                <p class="mt-4 text-muted">Freeshop a largest classified Listing Marketplace website to build benefit, efficiency, and compatibility us.</p>
+                <p class="mt-4 text-muted">Freeshopps is all in one platform where we can give away stuff we don’t need where other neighbors can pick them for free and be appreciated, it’s a lovely transaction how we can build a trust, friendly, positive environment, building a bridge in between the neighbors , that is the least we can do.</p>
                 <ul class="list-unstyled social-icon social mb-0 mt-4">
                     <li class="list-inline-item"><a href="{{ setting('facebook') }}" class="rounded"><i data-feather="facebook" class="fea icon-sm fea-social"></i></a></li>
                     <li class="list-inline-item"><a href="{{ setting('instagram') }}" class="rounded"><i data-feather="instagram" class="fea icon-sm fea-social"></i></a></li>

@@ -210,6 +210,51 @@
                         <span class="flex-1"><i class="ti-control-record"></i>Terms of Services</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.settings.something.new') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Something New</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.settings.what.we.are.upto') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>What we are upto</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.settings.join.with.us') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Join with us</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.settings.why.shopps.free') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Why Shopps free</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.settings.our.goal') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Our Goal</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.settings.faq') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>FAQS</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.settings.term.and.termination') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Term & Termination</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.settings.community') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Community</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex" href="{{ route('admin.settings.community.guideline') }}">
+                        <span class="flex-1"><i class="ti-control-record"></i>Community Guide</span>
+                    </a>
+                </li>
             </ul>
         </li>
         <li class="leftbar-menu-item @routeis('admin.gallery.*') mm-active @endrouteis">

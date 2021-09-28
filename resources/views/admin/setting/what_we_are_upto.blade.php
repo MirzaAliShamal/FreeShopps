@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Terms & Conditions Settings')
+@section('title', 'What we are upto')
 
 @section('content')
 <div class="container-fluid">
@@ -11,10 +11,10 @@
                 <div class="float-right">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Terms & Conditions Settings</li>
+                        <li class="breadcrumb-item active">What we are upto</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Terms & Conditions Settings</h4>
+                <h4 class="page-title">What we are upto</h4>
             </div><!--end page-title-box-->
         </div><!--end col-->
     </div><!--end row-->
@@ -27,8 +27,8 @@
                     <form action="{{ route('admin.settings.save') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label for="slogan">terms of Services *</label>
-                            <textarea name="terms"  class="form-control editor">{{ setting('terms') }}</textarea>
+                            <label >What we are upto*</label>
+                            <textarea name="what_we_are"  class="form-control editor">{{ setting('what_we_are') }}</textarea>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-purple waves-effect waves-light">Save</button>

@@ -28,7 +28,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="slogan">Privacy Policy *</label>
-                            <textarea name="privacy"  class="form-control ckeditor">{{ setting('privacy') }}</textarea>
+                            <textarea name="privacy"  class="form-control editor">{{ setting('privacy') }}</textarea>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-purple waves-effect waves-light">Save</button>

@@ -57,4 +57,41 @@ class SettingController extends Controller
     {
         return view('admin.setting.privacy', get_defined_vars());
     }
+
+    public function somethingNew()
+    {
+        return view('admin.setting.something_new', get_defined_vars());
+    }
+    public function whatWeAreUpto()
+    {
+        return view('admin.setting.what_we_are_upto', get_defined_vars());
+    }
+    public function joinWithUs()
+    {
+        return view('admin.setting.join_with_us', get_defined_vars());
+    }
+    public function whyShoppsFree()
+    {
+        return view('admin.setting.why_shopps_free', get_defined_vars());
+    }
+    public function ourGoal()
+    {
+        return view('admin.setting.our_goal', get_defined_vars());
+    }
+    public function faq()
+    {
+        return view('admin.setting.faq', get_defined_vars());
+    }
+    public function termAndTermination()
+    {
+        return view('admin.setting.term_and_termination', get_defined_vars());
+    }
+    public function community()
+    {
+        return view('admin.setting.community', get_defined_vars());
+    }
+    public function communityGuideline()
+    {
+        return view('admin.setting.community_guidline', get_defined_vars());
+    }
 }

@@ -27,13 +27,13 @@
                                 <h2 class="accordion-header" id="headingOne">
                                     <button class="accordion-button border-0 bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
                                         aria-expanded="true" aria-controls="collapseOne">
-                                        Why should we pay ?
+                                       {{ setting('faq_title') }}
                                     </button>
                                 </h2>
                                 <div id="collapseOne" class="accordion-collapse border-0 collapse show" aria-labelledby="headingOne"
                                     data-bs-parent="#payquestion">
                                     <div class="accordion-body text-muted bg-white">
-                                        We are providing service through website which need development and maintenance, process the transaction, Customer Support, mailing Communication, advertisements, paying employee and other Expenses, there’s no way we can survive without paying those cost therefore charging a processing fee for as minimum as $1 actually is not enough to maintain.
+                                        {!! setting('faq_text') !!}
                                     </div>
                                 </div>
                             </div>
@@ -41,13 +41,13 @@
                                 <h2 class="accordion-header" id="headingTwo">
                                     <button class="accordion-button border-0 bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
                                         aria-expanded="true" aria-controls="collapseTwo">
-                                        Can we pay Cash ?
+                                       {{ setting('faq_title2') }}
                                     </button>
                                 </h2>
                                 <div id="collapseTwo" class="accordion-collapse border-0 collapse show" aria-labelledby="headingTwo"
                                     data-bs-parent="#payquestion">
                                     <div class="accordion-body text-muted bg-white">
-                                        All are done in the website but <b class="text-primary">Freeshopps</b> does not meet in person so the only way to pay the fee is our secure payment system.
+                                       {!! setting('faq_text2') !!}
                                     </div>
                                 </div>
                             </div>

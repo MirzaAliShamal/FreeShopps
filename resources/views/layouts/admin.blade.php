@@ -225,7 +225,7 @@
 
             // Editor
             tinymce.init({
-                selector: "textarea#editor",
+                selector: "textarea.editor",
                 theme: "modern",
                 height:300,
                 plugins: [

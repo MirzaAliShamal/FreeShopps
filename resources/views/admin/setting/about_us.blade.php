@@ -48,11 +48,11 @@
                         </div>
                         <div class="form-group">
                             <label for="name">About us section details *</label>
-                            <textarea  name="about_sec_detail"  class="form-control ckeditor"> {{ setting('about_sec_detail') }}</textarea>
+                            <textarea  name="about_sec_detail"  class="form-control editor"> {{ setting('about_sec_detail') }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="name">About us section details 2*</label>
-                            <textarea  name="about_sec_detail2"  class="form-control ckeditor"> {{ setting('about_sec_detail2') }}</textarea>
+                            <textarea  name="about_sec_detail2"  class="form-control editor"> {{ setting('about_sec_detail2') }}</textarea>
                         </div>
                         {{-- <div class="form-group">
                             <label for="logo">About us Video *</label>

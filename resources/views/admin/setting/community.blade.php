@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Terms & Conditions Settings')
+@section('title', 'Community')
 
 @section('content')
 <div class="container-fluid">
@@ -11,10 +11,10 @@
                 <div class="float-right">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Terms & Conditions Settings</li>
+                        <li class="breadcrumb-item active">Community</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Terms & Conditions Settings</h4>
+                <h4 class="page-title">Community</h4>
             </div><!--end page-title-box-->
         </div><!--end col-->
     </div><!--end row-->
@@ -27,9 +27,15 @@
                     <form action="{{ route('admin.settings.save') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label for="slogan">terms of Services *</label>
-                            <textarea name="terms"  class="form-control editor">{{ setting('terms') }}</textarea>
+                            <label for="community_image">Community Image *</label>
+                            <input type="file" id="community_image" name="community_image" data-default-file="{{ asset(setting("community_image")) }}" class="form-control dropify">
                         </div>
+
+                        <div class="form-group">
+                            <label >Community text *</label>
+                            <textarea name="community_text"  class="form-control editor">{{ setting('community_text') }}</textarea>
+                        </div>
+
                         <div class="form-group">
                             <button type="submit" class="btn btn-purple waves-effect waves-light">Save</button>
                         </div>
